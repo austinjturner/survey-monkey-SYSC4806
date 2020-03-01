@@ -6,9 +6,10 @@ public class TextResponse extends Response{
 	
 	private String Answer;
 	
-	public TextResponse(String r) {
+	public TextResponse(String r, Question q) {
 		Answer = r;
 		type = QType.TEXT;
+		question = q;
 	}
 	
 	public String getResponse() {
