@@ -11,7 +11,7 @@ public class Survey {
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="SURVEY_SEQ_GEN")
     @SequenceGenerator(name="SURVEY_SEQ_GEN", sequenceName="SURVEY_SEQ_GEN")
     protected int ID;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     protected List<Question> questions;
 
     private String name;

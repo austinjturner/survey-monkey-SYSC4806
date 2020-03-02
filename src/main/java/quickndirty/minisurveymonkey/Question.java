@@ -20,7 +20,7 @@ public class Question {
 	private Survey survey;
 	protected QType type;
 	protected String prompt;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL)
 	protected List<Response> responses;
 
 
