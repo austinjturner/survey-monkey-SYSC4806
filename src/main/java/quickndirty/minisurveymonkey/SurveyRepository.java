@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 public interface SurveyRepository extends JpaRepository<Survey, Integer>{
 
     //find by Name
-    public Survey findByName();
+    public Survey findByName(String name);
 
 }
