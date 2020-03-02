@@ -3,10 +3,11 @@ package quickndirty.minisurveymonkey;
 import quickndirty.minisurveymonkey.QuestionTypes.QType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
-import antlr.collections.List;
+
 
 @Entity
 public class Question {
@@ -20,11 +21,11 @@ public class Question {
 	protected QType type;
 	protected String prompt;
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	protected ArrayList<Response> responses;
+	protected List<Response> responses;
 
 
 	public Question(){
-
+		responses = new ArrayList<Response>();
 	}
 	
 	public void setPrompt(String p) {
@@ -63,7 +64,7 @@ public class Question {
 		responses.add(r);
 	}
 	
-	public ArrayList<Response> getResponses() {
+	public List<Response> getResponses() {
 		return responses;
 	}
 	

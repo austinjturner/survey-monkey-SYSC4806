@@ -2,6 +2,7 @@ package quickndirty.minisurveymonkey;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Survey {
@@ -11,7 +12,7 @@ public class Survey {
     @SequenceGenerator(name="SURVEY_SEQ_GEN", sequenceName="SURVEY_SEQ_GEN")
     protected int ID;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    protected ArrayList<Question> questions;
+    protected List<Question> questions;
 
     private String name;
 
@@ -22,7 +23,7 @@ public class Survey {
     }
 
     public Survey(String name) {
-        questions = new ArrayList<>();
+        questions = new ArrayList<Question>();
         this.name = name;
         this.isClosed = false;
     }
@@ -35,7 +36,7 @@ public class Survey {
         this.ID = ID;
     }
 
-    public ArrayList<Question> getQuestions() {
+    public List<Question> getQuestions() {
         return questions;
     }
 
