@@ -19,7 +19,8 @@ public class Survey {
     private boolean isClosed;
 
     public Survey(){
-
+        // create survey with default name
+        this("");
     }
 
     public Survey(String name) {
@@ -40,7 +41,7 @@ public class Survey {
         return questions;
     }
 
-    public void setQuestions(ArrayList<Question> questions) {
+    public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
 
