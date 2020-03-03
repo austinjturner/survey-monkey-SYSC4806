@@ -4,6 +4,7 @@ import quickndirty.minisurveymonkey.QuestionTypes.QType;
 
 import javax.persistence.*;
 
+@Entity
 public class Response {
 	@Id
 	@GeneratedValue(strategy= GenerationType.SEQUENCE, generator="RESPONSE_SEQ_GEN")

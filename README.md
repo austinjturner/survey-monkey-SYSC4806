@@ -1,4 +1,7 @@
 # Mini-SurveyMonkey - Group QuicknDirty
+
+[![Build Status](https://travis-ci.org/nikolaerak/survey-monkey-SYSC4806.svg?branch=master)](https://travis-ci.org/nikolaerak/survey-monkey-SYSC4806)
+
 This project contains the implementation of a web-app platform to create and repsond to surveys, similar to [SurveyMonkey](https://www.surveymonkey.com/).
 The platform backend is written in Java using the [Spring Boot](https://spring.io/projects/spring-boot) framework and data is stored in a 
 persistent PostgreSQL database. 
@@ -6,9 +9,7 @@ persistent PostgreSQL database.
 This project is continuously integerated via [Travis CI](https://travis-ci.org/) and deployed on [Heroku](https://dashboard.heroku.com/apps).
 
 ## State of the Project
-The project is currently in its eariest starting phase. 
-
-**There is currently no CI setup, and the project is not deployed on Heroku**
+The project is now being tested via Travis CI and deployed to Heroku.
 
 The first milestone will allow users to create a survey with only text-based questions.
 The issues currently pending for this milestone can be summarized as:
