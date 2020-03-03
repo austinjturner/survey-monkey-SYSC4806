@@ -1,10 +1,10 @@
 language: java
 jdk:
  - oraclejdk11
-deploy:
- provider: heroku
- api-key:
-  secure: $HEROKU_API_KEY
- app: survey-monkey-sysc4806
 before_install:
  - chmod +x mvnw
+deploy:
+ provider: heroku
+ api_key:
+  secure: 770e595c-1d0a-4cad-a826-79a85f504633
+ app: survey-monkey-sysc4806
