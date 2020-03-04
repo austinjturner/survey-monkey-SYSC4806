@@ -1,5 +1,7 @@
 package quickndirty.minisurveymonkey;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +10,10 @@ import java.util.List;
 public class Survey {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="SURVEY_SEQ_GEN")
-    @SequenceGenerator(name="SURVEY_SEQ_GEN", sequenceName="SURVEY_SEQ_GEN")
-    protected int ID;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    protected String ID;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "survey")
     protected List<Question> questions;
 
     private String name;
@@ -29,11 +31,11 @@ public class Survey {
         this.isClosed = false;
     }
 
-    public int getID() {
+    public String getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(String ID) {
         this.ID = ID;
     }
 
@@ -80,13 +82,7 @@ public class Survey {
             s+="\n";
         }
         return s;
-
     }
-
-
-
-
-
 }
 
 
