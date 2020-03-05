@@ -14,6 +14,7 @@ public class Survey {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     protected String ID;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "survey")
+
     protected List<Question> questions;
 
     private String name;
@@ -26,7 +27,7 @@ public class Survey {
     }
 
     public Survey(String name) {
-        questions = new ArrayList<>();
+        questions = new ArrayList<Question>();
         this.name = name;
         this.isClosed = false;
     }

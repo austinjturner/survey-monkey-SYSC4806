@@ -3,6 +3,9 @@ package quickndirty.minisurveymonkey;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @JsonTypeInfo(
@@ -25,6 +28,9 @@ public abstract class Question {
 	private Survey survey;
 	protected QuestionType type;
 	protected String prompt;
+	@OneToMany(cascade = CascadeType.ALL)
+	protected List<Response> responses;
+
 
 	public Question() {
 
@@ -61,4 +67,6 @@ public abstract class Question {
 	public void setSurvey(Survey survey){
 		this.survey = survey;
 	}
+	
+
 }
