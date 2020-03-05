@@ -28,7 +28,7 @@ public abstract class Question {
 	private Survey survey;
 	protected QuestionType type;
 	protected String prompt;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "question")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "question")
 	protected List<Response> responses;
 
 

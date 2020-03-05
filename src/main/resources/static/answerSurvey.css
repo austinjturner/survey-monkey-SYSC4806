@@ -1,0 +1,23 @@
+.btn  > a {
+
+}
+
+/* unvisited link */
+.btn > a:link {
+    color: white;
+}
+
+/* visited link */
+.btn > a:visited {
+    color: white;
+}
+
+/* mouse over link */
+.btn > a:hover {
+    color: white;
+}
+
+/* selected link */
+.btn > a:active {
+    color: white;
+}
