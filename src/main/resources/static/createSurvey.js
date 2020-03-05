@@ -1,4 +1,4 @@
-let surveyID = "http://localhost:8080/survey/3"
+let surveyID = ""
 let questions = []
 textInputForm =`
     <br>
@@ -15,7 +15,6 @@ $( document ).ready(function() {
 
 $(".inputSelect").change(function() {
   inputType = $(".inputSelect").val()
-  console.log($(".inputSelect").val())
   $('#questionInput').empty()
   if(inputType =='TEXT'){
      $('#questionInput').append(textInputForm)
@@ -27,7 +26,15 @@ $("#createSurveyForm").submit(function(e){
     surveyName = $('#surveyName').val()
     createSurveyRequest(surveyName).then(function(result){
         surveyID = result._links.self.href
-        console.log(surveyID)
+        promises = []
+        for(var i = 0; i < questions.length; i++){
+         promises.push(addQuestionToSurvey(questions[i].prompt, questions[i].inputType))
+        }
+        Promise.all(promises)
+         .then(() => {
+         })
+         .catch((e) => {
+        });
     })
 });
 
@@ -37,10 +44,6 @@ $("#createSurveyForm").on('click', '#addTextQuestion', function () {
      questions.push({'prompt': prompt, 'inputType': inputType})
      addNewQuestion(prompt, inputType)
      $('#textQuestionPrompt').val('')
-     console.log(questions)
-     addQuestionToSurvey(prompt, inputType).then(function(result){
-         console.log(result)
-     })
 });
 
 function addNewQuestion(questionPrompt, inputType){
@@ -51,18 +54,16 @@ function addNewQuestion(questionPrompt, inputType){
 
 function createSurveyRequest(surveyName){
  return new Promise((resolve, reject) => {
-    apiUrl = window.location.origin + '/survey'
+    apiUrl = window.location.origin + '/api/survey'
     $.ajax({
       url: apiUrl,
       type: 'POST',
       contentType: "application/json",
       data: JSON.stringify({name: surveyName}),
       success: function(data) {
-        console.log("Post Survey ", data)
         resolve(data)
       },
       error: function(error) {
-        console.log(error)
         reject(error)
       },
     })
@@ -71,8 +72,7 @@ function createSurveyRequest(surveyName){
 
 function addQuestionToSurvey(questionPrompt, inputType){
  return new Promise((resolve, reject) => {
-    console.log(JSON.stringify({ survey: surveyID, type: inputType, prompt: questionPrompt }))
-    apiUrl = window.location.origin + '/question'
+    apiUrl = window.location.origin + '/api/question'
     $.ajax({
       url: apiUrl,
       type: 'POST',
