@@ -2,7 +2,12 @@ package quickndirty.minisurveymonkey;
 
 import quickndirty.minisurveymonkey.QuestionTypes.QType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
+
+
 
 @Entity
 public class Question {
@@ -15,10 +20,12 @@ public class Question {
 	private Survey survey;
 	protected QType type;
 	protected String prompt;
+	@OneToMany(cascade = CascadeType.ALL)
+	protected List<Response> responses;
 
 
 	public Question(){
-
+		responses = new ArrayList<Response>();
 	}
 	
 	public void setPrompt(String p) {
@@ -44,4 +51,22 @@ public class Question {
 	public QType getType() {
 		return type;
 	}
+	
+	public void setSurvey(Survey s) {
+		survey = s;
+	}
+	
+	public Survey getSurvey() {
+		return survey;
+	}
+	
+	public void addResponse(Response r) {
+		responses.add(r);
+	}
+	
+	public List<Response> getResponses() {
+		return responses;
+	}
+	
+
 }
