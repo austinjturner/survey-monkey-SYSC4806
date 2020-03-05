@@ -21,19 +21,20 @@ import javax.persistence.*;
 public abstract class Question {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.SEQUENCE, generator="QUESTION_SEQ_GEN")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="QUESTION_SEQ_GEN")
 	@SequenceGenerator(name="QUESTION_SEQ_GEN", sequenceName="QUESTION_SEQ_GEN")
 	protected int ID;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Survey survey;
 	protected QuestionType type;
 	protected String prompt;
-	@OneToMany(cascade = CascadeType.ALL)
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "question")
 	protected List<Response> responses = new ArrayList<Response>();
 
 
 	public Question() {
-
+		responses = new ArrayList<>();
 	}
 	
 	public void setPrompt(String p) {
@@ -67,13 +68,20 @@ public abstract class Question {
 	public void setSurvey(Survey survey){
 		this.survey = survey;
 	}
+
 	
 	public void addResponse(Response r) {
 		responses.add(r);
 	}
-	
+
+
+	public void setResponses(List<Response> responses) {
+		this.responses = responses;
+	}
+
 	public List<Response> getResponses(){
-		return responses;
+		return this.responses;
+
 	}
 
 }
