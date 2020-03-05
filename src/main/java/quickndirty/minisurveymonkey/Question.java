@@ -31,7 +31,6 @@ public abstract class Question {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "question")
 	protected List<Response> responses;
 
-
 	public Question() {
 		responses = new ArrayList<>();
 	}
@@ -68,12 +67,19 @@ public abstract class Question {
 		this.survey = survey;
 	}
 
+	
+	public void addResponse(Response r) {
+		responses.add(r);
+	}
+
+
 	public void setResponses(List<Response> responses) {
 		this.responses = responses;
 	}
 
 	public List<Response> getResponses(){
 		return this.responses;
+
 	}
 
 }
