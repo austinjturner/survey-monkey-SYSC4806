@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Mini Survey Monkey</title>
+</head>
+<body>
+    <div id="">
+        <h2>Create a Survey</h2>
+        <form id="createSurveyForm" action="/CREATE_SURVEY_POST_ENDPOINT">
+            <label for="surveyName">Survey Name:</label><br>
+            <input type="text" id="surveyName" name="surveyName" value="" required><br>
+            <hr>
+            <h2>Add Question</h2>
+            <label for="questionInputSelector">Question Response Type:</label>
+            <select id="questionInputSelector" class="inputSelect" autocomplete="off">
+                <option disabled selected value> -- select an option -- </option>
+                <option value="TEXT">Text</option>
+                <option value="MC" >Multiple Choice</option>
+            </select>
+            <div id="questionInput">
+
+            </div>
+            <br>
+            <div id="surveyQuestions">
+                <table id="questionTable">
+                    <colgroup>
+                        <col style="width:20%">
+                        <col style="width:60%">
+                        <col style="width:20%">
+                    </colgroup>
+                    <tr>
+                        <th>Question Number</th>
+                        <th>Question Prompt</th>
+                        <th>Response Type</th>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <input id="submitSurvey" type="submit" value="Post Survey" disabled>
+        </form>
+    </div>
+    <div id="noJSForm">
+    </div>
+    <link rel="stylesheet" type="text/css" href="createSurvey.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="createSurvey.js"></script>
+</body>
+</html>
+

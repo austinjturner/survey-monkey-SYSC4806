@@ -1,7 +1,5 @@
 package quickndirty.minisurveymonkey;
 
-import quickndirty.minisurveymonkey.QuestionType;
-
 import javax.persistence.Entity;
 
 @Entity
