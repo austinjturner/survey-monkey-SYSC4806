@@ -1,16 +1,24 @@
 package quickndirty.minisurveymonkey;
 
-import quickndirty.minisurveymonkey.QuestionTypes.QType;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
-
-
+@JsonTypeInfo(
+		use = JsonTypeInfo.Id.NAME,
+		include = JsonTypeInfo.As.EXISTING_PROPERTY,
+		property = "type",
+		visible = true
+)
+@JsonSubTypes({
+		@JsonSubTypes.Type(value = TextQuestion.class, name = "TEXT")
+})
 @Entity
-public class Question {
+public abstract class Question {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.SEQUENCE, generator="QUESTION_SEQ_GEN")
@@ -18,14 +26,14 @@ public class Question {
 	protected int ID;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Survey survey;
-	protected QType type;
+	protected QuestionType type;
 	protected String prompt;
 	@OneToMany(cascade = CascadeType.ALL)
 	protected List<Response> responses;
 
 
-	public Question(){
-		responses = new ArrayList<Response>();
+	public Question() {
+
 	}
 	
 	public void setPrompt(String p) {
@@ -44,28 +52,20 @@ public class Question {
 		return ID;
 	}
 	
-	public void setType(QType q) {
+	public void setType(QuestionType q) {
 		type = q;
 	}
 	
-	public QType getType() {
+	public QuestionType getType() {
 		return type;
 	}
-	
-	public void setSurvey(Survey s) {
-		survey = s;
+
+	public Survey getSurvey(){
+		return this.survey;
 	}
-	
-	public Survey getSurvey() {
-		return survey;
-	}
-	
-	public void addResponse(Response r) {
-		responses.add(r);
-	}
-	
-	public List<Response> getResponses() {
-		return responses;
+
+	public void setSurvey(Survey survey){
+		this.survey = survey;
 	}
 	
 

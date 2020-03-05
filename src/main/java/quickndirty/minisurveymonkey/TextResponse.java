@@ -1,23 +1,29 @@
 package quickndirty.minisurveymonkey;
 
-import quickndirty.minisurveymonkey.QuestionTypes.QType;
+import quickndirty.minisurveymonkey.QuestionType;
 
-public class TextResponse extends Response{
+import javax.persistence.Entity;
+
+@Entity
+public class TextResponse extends Response {
 	
-	private String Answer;
-	
+	private String answer;
+
+	public TextResponse(){
+		type = QuestionType.TEXT;
+	}
+
 	public TextResponse(String r, Question q) {
-		Answer = r;
-		type = QType.TEXT;
+		answer = r;
+		type = QuestionType.TEXT;
 		question = q;
 	}
 	
-	public String getResponse() {
-		return Answer;
-	}
-	
-	public void setResponse(String r) {
-		Answer = r;
+	public String getAnswer() {
+		return answer;
 	}
 
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
 }

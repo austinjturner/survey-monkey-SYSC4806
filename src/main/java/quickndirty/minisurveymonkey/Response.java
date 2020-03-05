@@ -1,16 +1,26 @@
 package quickndirty.minisurveymonkey;
 
-import quickndirty.minisurveymonkey.QuestionTypes.QType;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 
 import javax.persistence.*;
 
+@JsonTypeInfo(
+		use = JsonTypeInfo.Id.NAME,
+		include = JsonTypeInfo.As.EXISTING_PROPERTY,
+		property = "type",
+		visible = true
+)
+@JsonSubTypes({
+		@JsonSubTypes.Type(value = TextResponse.class, name = "TEXT"),
+})
 @Entity
-public class Response {
+public abstract class Response {
 	@Id
 	@GeneratedValue(strategy= GenerationType.SEQUENCE, generator="RESPONSE_SEQ_GEN")
 	@SequenceGenerator(name="RESPONSE_SEQ_GEN", sequenceName="RESPONSE_SEQ_GEN")
 	protected int ID;
-	protected QType type;
+	protected QuestionType type;
 	@ManyToOne(cascade = CascadeType.ALL)
 	protected Question question;
 
@@ -32,11 +42,11 @@ public class Response {
 		ID=i;
 	}
 	
-	public void setType(QType q) {
+	public void setType(QuestionType q) {
 		type = q;
 	}
 	
-	public QType getType() {
+	public QuestionType getType() {
 		return type;
 	}
 }

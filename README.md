@@ -1,6 +1,7 @@
 # Mini-SurveyMonkey - Group QuicknDirty
 
 [![Build Status](https://travis-ci.com/austinjturner/survey-monkey-SYSC4806.svg?branch=master)](https://travis-ci.com/austinjturner/survey-monkey-SYSC4806)
+[Open App](https://survey-monkey-sysc4806.herokuapp.com/)
 
 This project contains the implementation of a web-app platform to create and repsond to surveys, similar to [SurveyMonkey](https://www.surveymonkey.com/).
 The platform backend is written in Java using the [Spring Boot](https://spring.io/projects/spring-boot) framework and data is stored in a 
