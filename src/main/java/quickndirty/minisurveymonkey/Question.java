@@ -29,7 +29,7 @@ public abstract class Question {
 	protected QuestionType type;
 	protected String prompt;
 	@OneToMany(cascade = CascadeType.ALL)
-	protected List<Response> responses ;
+	protected List<Response> responses = new ArrayList<Response>();
 
 
 	public Question() {
