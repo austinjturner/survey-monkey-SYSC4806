@@ -1,5 +1,8 @@
 package quickndirty.minisurveymonkey;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 
 @Entity
@@ -11,6 +14,7 @@ public class TextQuestion extends Question {
 	public TextQuestion(String Prompt) {
 		type = QuestionType.TEXT;
 		this.prompt = Prompt;
+		
 		
 	}
 }

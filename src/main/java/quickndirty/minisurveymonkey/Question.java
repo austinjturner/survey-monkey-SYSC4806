@@ -28,8 +28,9 @@ public abstract class Question {
 	private Survey survey;
 	protected QuestionType type;
 	protected String prompt;
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "question")
-	protected List<Response> responses;
+	protected List<Response> responses = new ArrayList<Response>();
 
 
 	public Question() {
@@ -68,12 +69,19 @@ public abstract class Question {
 		this.survey = survey;
 	}
 
+	
+	public void addResponse(Response r) {
+		responses.add(r);
+	}
+
+
 	public void setResponses(List<Response> responses) {
 		this.responses = responses;
 	}
 
 	public List<Response> getResponses(){
 		return this.responses;
+
 	}
 
 }
