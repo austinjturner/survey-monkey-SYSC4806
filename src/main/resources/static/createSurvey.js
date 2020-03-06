@@ -1,4 +1,5 @@
-let surveyID = ""
+let surveyHref = ""
+let surveyId = ""
 let questions = []
 textInputForm =`
     <br>
@@ -25,13 +26,23 @@ $("#createSurveyForm").submit(function(e){
     e.preventDefault()
     surveyName = $('#surveyName').val()
     createSurveyRequest(surveyName).then(function(result){
-        surveyID = result._links.self.href
+        surveyHref = result._links.self.href
+        surveyId=result.id
         promises = []
         for(var i = 0; i < questions.length; i++){
          promises.push(addQuestionToSurvey(questions[i].prompt, questions[i].inputType))
         }
         Promise.all(promises)
          .then(() => {
+            surveyMessage = 'Survey can be filled out at: '+ window.location.origin + '/survey/' + surveyId
+            $('#surveyName').val('')
+            $('#textQuestionPrompt').val('')
+            surveyHref = ""
+            surveyId = ""
+            questions = []
+            $('#questionTBody').empty()
+            console.log('SurveyUrl')
+            alert(surveyMessage)
          })
          .catch((e) => {
         });
@@ -43,13 +54,12 @@ $("#createSurveyForm").on('click', '#addTextQuestion', function () {
      inputType =  $(".inputSelect").val()
      questions.push({'prompt': prompt, 'inputType': inputType})
      addNewQuestion(prompt, inputType)
-     $('#textQuestionPrompt').val('')
 });
 
 function addNewQuestion(questionPrompt, inputType){
     $("#submitSurvey").prop('disabled', false)
     questionRow = "<tr><td>" + questions.length + "</td><td>" + questionPrompt + "</td><td>" + inputType + "</td></tr>"
-    $('#questionTable').append(questionRow)
+    $('#questionTBody').append(questionRow)
 }
 
 function createSurveyRequest(surveyName){
@@ -77,7 +87,7 @@ function addQuestionToSurvey(questionPrompt, inputType){
       url: apiUrl,
       type: 'POST',
       contentType: "application/json",
-      data: JSON.stringify({ survey: surveyID, type: inputType, prompt: questionPrompt }),
+      data: JSON.stringify({ survey: surveyHref, type: inputType, prompt: questionPrompt }),
       success: function(data) {5
         resolve(data)
       },
