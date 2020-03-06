@@ -28,10 +28,8 @@ public abstract class Question {
 	private Survey survey;
 	protected QuestionType type;
 	protected String prompt;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "question")
-	protected List<Response> responses = new ArrayList<Response>();
-
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "question")
+	protected List<Response> responses;
 
 	public Question() {
 		responses = new ArrayList<>();
