@@ -10,15 +10,13 @@ persistent PostgreSQL database.
 This project is continuously integrated via [Travis CI](https://travis-ci.org/) and deployed on [Heroku](https://dashboard.heroku.com/apps).
 
 ## State of the Project
-The project is now being tested via Travis CI and deployed to Heroku.
 
-The first milestone will allow users to create a survey with only text-based questions.
-The issues currently pending for this milestone can be summarized as:
-
-1. Setup an initial Spring Boot system and integrate with Travis CI and Heroku.
-2. Establish the data models needed for milestone 1
-3. Implement the UI for milestone 1
-
+- The project is now being tested via Travis CI and deployed to Heroku.
+- The project uses PostgreSQL to persistently store entities
+- Users can create a named survey with multiple questions
+    - Only text-based questions currently
+- Users can respond to the questions in an existing survey
+    - Only text-based responses currently
 
 ## Plan for the Next Sprint
 The next sprint will add the 2 additional questions types: Multiple choice and range input. The creator of the survey
