@@ -49,4 +49,6 @@ public abstract class Response {
 	public QuestionType getType() {
 		return type;
 	}
+
+	
 }
