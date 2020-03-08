@@ -15,7 +15,11 @@ import javax.persistence.*;
 		visible = true
 )
 @JsonSubTypes({
-		@JsonSubTypes.Type(value = TextQuestion.class, name = "TEXT")
+		@JsonSubTypes.Type (value = TextQuestion.class, name = "TEXT"),
+		@JsonSubTypes.Type(value = RangeQuestion.class, name = "NUMBER"),
+		//@JsonSubTypes.Type(value = MCQuestion.class, name = "MC")
+		
+		
 })
 @Entity
 public abstract class Question {
