@@ -24,7 +24,7 @@ public class RangeQuestion extends Question{
 		if(r.getAnswer() < min || r.getAnswer() > max) {
 			return false;
 		}else {
-			Response q = (Response)r;
+			responses.add((Response)r);
 			return true;
 			
 		}
