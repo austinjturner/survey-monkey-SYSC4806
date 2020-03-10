@@ -28,10 +28,12 @@ public abstract class Question {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="QUESTION_SEQ_GEN")
 	@SequenceGenerator(name="QUESTION_SEQ_GEN", sequenceName="QUESTION_SEQ_GEN")
 	protected int ID;
+
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Survey survey;
 	protected QuestionType type;
 	protected String prompt;
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "question")
 	protected List<Response> responses;
 

@@ -3,7 +3,7 @@ package quickndirty.minisurveymonkey;
 import javax.persistence.Entity;
 
 @Entity
-public class RangeResponse extends Response{
+public class RangeResponse extends Response {
 	private int answer;
 	
 	public RangeResponse(){

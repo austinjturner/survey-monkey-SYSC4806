@@ -23,4 +23,4 @@ The next sprint will add the 2 additional questions types: Multiple choice and r
 should also be able to view some of the result data (maybe number based, rather than the complete graphical displays).
 
 ## Database Schema
-![DB Schema Diagram](src/main/resources/static/db_schema.PNG?raw=true "DB Schema Diagram")
+![DB Schema Diagram](src/images/db_schema.PNG?raw=true "DB Schema Diagram")

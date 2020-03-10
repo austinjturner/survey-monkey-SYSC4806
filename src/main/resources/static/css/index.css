@@ -1,0 +1,71 @@
+
+.form-signin{
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-signin .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.btn-center{
+    width: 50%;
+    text-align: center;
+    margin: inherit;
+}
+
+.social-login-btn {
+    margin: 5px;
+    width: 40%;
+    font-size: 250%;
+    padding: 0;
+}
+
+.social-login-more {
+    width: 45%;
+}
+
+.social-google {
+    background-color: #da573b;
+    border-color: #be5238;
+}
+.social-google:hover{
+    background-color: #be5238;
+    border-color: #9b4631;
+}
+
+.social-github {
+    background-color: #666666;
+    border-color: #333333;
+}
+.social-github:hover{
+    background-color: #333333;
+    border-color: #222222;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #17a2b8;
+    height: 100vh;
+}
+#login .container #login-row #login-column #login-box {
+    margin-top: 120px;
+    max-width: 600px;
+    height: 320px;
+    border: 1px solid #9C9C9C;
+    background-color: #EAEAEA;
+}
+#login .container #login-row #login-column #login-box #login-form {
+    padding: 20px;
+}
+#login .container #login-row #login-column #login-box #login-form #register-link {
+    margin-top: -85px;
+}
