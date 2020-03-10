@@ -1,18 +1,20 @@
 package quickndirty.minisurveymonkey;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import static org.hamcrest.Matchers.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest(classes={MinisurveymonkeyApplication.class})
 @AutoConfigureMockMvc
@@ -23,58 +25,75 @@ public class WebAppTest {
 
     @Test
     @Order(1)
-    public void testCreateSurvey() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/survey")
+    public void testIntegration() throws Exception {
+        //POST A SURVEY
+        MvcResult surveyResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/api/survey")
                 .contentType("application/json")
-                .content("{name: 'ThisIsFromTestClass'}"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("{\"info\":[],\"id\":1}")));
-    }
+                .content("{\"name\":\"Test class survey\"}"))
+                .andExpect(status().isCreated())
+                .andReturn();
+        MockHttpServletResponse response = surveyResult.getResponse();
+        String surveyLocation = response.getHeader("Location");
 
-    @Test
-    @Order(2)
-    public void testCreateQuestion() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/survey")
+        //POST A QUESTION
+        MvcResult questionResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/api/question")
                 .contentType("application/json")
-                .content("{name: 'ThisIsFromTestClass'}"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("{\"info\":[],\"id\":1}")));
-    }
+                .content("{\"survey\":\"" + surveyLocation + "\"" +
+                        ",\"type\":\"TEXT\"," +
+                        "\"prompt\":\"This is a test question\"}"))
+                .andExpect(status().isCreated())
+                .andReturn();
+        MockHttpServletResponse questionResponse = questionResult.getResponse();
+        String questionLocation = questionResponse.getHeader("Location");
 
-    @Test
-    @Order(3)
-    public void testCreateResponse() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/survey")
+        //POST A RESPONSE
+        MvcResult responseResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/api/response")
                 .contentType("application/json")
-                .content("{name: 'ThisIsFromTestClass'}"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("{\"info\":[],\"id\":1}")));
-    }
+                .content("{\"question\":\"" + questionLocation + "\"" +
+                        ",\"type\":\"TEXT\"," +
+                        "\"answer\":\"This is a test response\"}"))
+                .andExpect(status().isCreated())
+                .andReturn();
+        MockHttpServletResponse responseResponse = responseResult.getResponse();
+        String responseLocation = responseResponse.getHeader("Location");
 
-    @Test
-    @Order(4)
-    public void testGetSurveys_none() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/survey")
+        //GET THE SURVEY
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/survey/" + surveyLocation.replaceAll("[^\\d.]", ""))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("[]")));
-    }
+                .andExpect(jsonPath("$.name", is("Test class survey")));
 
-    @Test
-    @Order(5)
-    public void testGetQuestions_none() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/question")
+        //GET THE QUESTION
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/question/" + questionLocation.replaceAll("[^\\d.]", ""))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("[]")));
-    }
+                .andExpect(jsonPath("$.prompt", is("This is a test question")));
 
-    @Test
-    @Order(6)
-    public void testGetResponses_none() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/response")
+        //GET THE RESPONSE
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/response/" + responseLocation.replaceAll("[^\\d.]", ""))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("[]")));
+                .andExpect(jsonPath("$.answer", is("This is a test response")));
+
+        //DELETE THE RESPONSE
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .delete("/api/response/" + responseLocation.replaceAll("[^\\d.]", ""))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        //DELETE THE QUESTION
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .delete("/api/question/" +questionLocation.replaceAll("[^\\d.]", ""))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        //DELETE THE SURVEY
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .delete("/api/survey/" +surveyLocation.replaceAll("[^\\d.]", ""))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 }
