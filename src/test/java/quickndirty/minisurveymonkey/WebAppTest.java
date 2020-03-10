@@ -27,7 +27,8 @@ public class WebAppTest {
     @Order(1)
     public void testIntegration() throws Exception {
         //POST A SURVEY
-        MvcResult surveyResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/api/survey")
+        MvcResult surveyResult = this.mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/survey")
                 .contentType("application/json")
                 .content("{\"name\":\"Test class survey\"}"))
                 .andExpect(status().isCreated())
@@ -36,7 +37,8 @@ public class WebAppTest {
         String surveyLocation = response.getHeader("Location");
 
         //POST A QUESTION
-        MvcResult questionResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/api/question")
+        MvcResult questionResult = this.mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/question")
                 .contentType("application/json")
                 .content("{\"survey\":\"" + surveyLocation + "\"" +
                         ",\"type\":\"TEXT\"," +
@@ -47,7 +49,8 @@ public class WebAppTest {
         String questionLocation = questionResponse.getHeader("Location");
 
         //POST A RESPONSE
-        MvcResult responseResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/api/response")
+        MvcResult responseResult = this.mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/response")
                 .contentType("application/json")
                 .content("{\"question\":\"" + questionLocation + "\"" +
                         ",\"type\":\"TEXT\"," +
@@ -58,19 +61,22 @@ public class WebAppTest {
         String responseLocation = responseResponse.getHeader("Location");
 
         //GET THE SURVEY
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/survey/" + surveyLocation.replaceAll("[^\\d.]", ""))
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/survey/" + surveyLocation.replaceAll("[^\\d.]", ""))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("Test class survey")));
 
         //GET THE QUESTION
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/question/" + questionLocation.replaceAll("[^\\d.]", ""))
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/question/" + questionLocation.replaceAll("[^\\d.]", ""))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.prompt", is("This is a test question")));
 
         //GET THE RESPONSE
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/response/" + responseLocation.replaceAll("[^\\d.]", ""))
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/response/" + responseLocation.replaceAll("[^\\d.]", ""))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.answer", is("This is a test response")));
