@@ -12,7 +12,6 @@ import java.util.Map;
 public class LoginController {
     @GetMapping("/api/user")
     public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
-        System.out.println(principal);
         return Collections.singletonMap("name", principal.getAttribute("name"));
     }
 }
