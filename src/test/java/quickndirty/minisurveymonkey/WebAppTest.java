@@ -81,20 +81,6 @@ public class WebAppTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.answer", is("This is a test response")));
 
-        //DELETE THE RESPONSE
-        this.mockMvc.perform(MockMvcRequestBuilders
-                .delete("/api/response/" + responseLocation.replaceAll("[^\\d.]", ""))
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
-
-        //DELETE THE QUESTION
-        this.mockMvc.perform(MockMvcRequestBuilders
-                .delete("/api/question/" +questionLocation.replaceAll("[^\\d.]", ""))
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
-
         //DELETE THE SURVEY
         this.mockMvc.perform(MockMvcRequestBuilders
                 .delete("/api/survey/" +surveyLocation.replaceAll("[^\\d.]", ""))
