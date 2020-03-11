@@ -38,6 +38,14 @@ public class WebAppTest {
     @Test
     @Order(1)
     public void testIntegration() throws Exception {
+        //POST A SURVEY WITHOUT AUTHENTICATION
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/survey")
+                .contentType("application/json")
+                .content("{\"name\":\"Test class survey\"}"))
+                .andExpect(status().is(401))
+                .andReturn();
+
         //POST A SURVEY
         MvcResult surveyResult = this.mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/survey")

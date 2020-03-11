@@ -41,4 +41,10 @@ public class WebControllerTest {
                 .with(authentication(getOauthAuthenticationFor(principal))))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void checkNoAuthenticationReturnsError() throws Exception {
+        this.mockMvc.perform(get("/survey/1"))
+                .andExpect(status().is(401));
+    }
 }
