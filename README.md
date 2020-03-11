@@ -17,10 +17,11 @@ This project is continuously integrated via [Travis CI](https://travis-ci.org/) 
     - Only text-based questions currently
 - Users can respond to the questions in an existing survey
     - Only text-based responses currently
+- Users can log in via Google or Github
 
 ## Plan for the Next Sprint
 The next sprint will add the 2 additional questions types: Multiple choice and range input. The creator of the survey
 should also be able to view some of the result data (maybe number based, rather than the complete graphical displays).
 
 ## Database Schema
-![DB Schema Diagram](src/main/resources/static/db_schema.PNG?raw=true "DB Schema Diagram")
+![DB Schema Diagram](src/images/db_schema.png?raw=true "DB Schema Diagram")
