@@ -47,4 +47,10 @@ public class WebControllerTest {
         this.mockMvc.perform(get("/survey/1"))
                 .andExpect(status().is(401));
     }
+
+    @Test
+    public void checkNoAuthenticationOnLoginReturnsError() throws Exception {
+        this.mockMvc.perform(get("/login"))
+                .andExpect(status().is(401));
+    }
 }

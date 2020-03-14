@@ -50,7 +50,8 @@ public class WebAppTest {
         MvcResult surveyResult = this.mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/survey")
                 .contentType("application/json")
-                .content("{\"name\":\"Test class survey\"}")
+                .content("{\"name\":\"Test class survey\"" +
+                        ",\"creator\":\"/api/user/2\"}")
                 .with(authentication(getOauthAuthenticationFor(principal))))
                 .andExpect(status().isCreated())
                 .andReturn();
@@ -89,7 +90,8 @@ public class WebAppTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .with(authentication(getOauthAuthenticationFor(principal))))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is("Test class survey")));
+                .andExpect(jsonPath("$.name", is("Test class survey")))
+                .andExpect(jsonPath("$._links.creator.href", matchesPattern(".*/creator")));
 
         //GET THE QUESTION
         this.mockMvc.perform(MockMvcRequestBuilders
