@@ -9,27 +9,25 @@
 <link rel="stylesheet" type="text/css" href="/css/answerSurvey.css">
 
 <head>
-    <title th:text="${name}"></title>
+    <title th:text="${surveyName}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
     <ul class="list-group">
         <li class="list-group-item">
-            <h1 class="display-4" th:text="${name}"></h1>
+            <h1 id="surveyName" class="display-4"> Survey: <span th:text="${surveyName}"></span></h1>
         </li>
         <li class="list-group-item">
+            <p id="questionNumber" class="display-4"> Question # <span th:text="${questionNumber + 1}"></span> of <span th:text="${questions.size()}"></span></p>
             <form id="answerSurveyForm" action="/api/response" method="POST">
                 <div class="form-group">
-                    <input type="hidden" id="surveyTextValue" name="type" value="TEXT">
-                </div>                <div class="form-group">
+                    <input type="hidden" id="surveyTypeValue" name="type" th:value="${questions.get(questionNumber).getType().toString()}">
+                </div>
+                <div class="form-group">
                     <input type="hidden" id="surveyQuestionValue" name="question" th:value="${baseUrl+'/question/'+questions.get(questionNumber).getID()}">
                 </div>
                 <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" th:text="${questions.get(questionNumber).getPrompt()}"></span>
-                        </div>
-                        <textarea class="form-control" id="surveyTextArea" rows="3" name="answer"></textarea>
+                    <div class="input-group" id="questionContent">
                     </div>
                 </div>
                 <div class="form-group">

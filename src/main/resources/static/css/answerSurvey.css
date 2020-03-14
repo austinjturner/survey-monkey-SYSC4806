@@ -21,3 +21,11 @@
 .btn > a:active {
     color: white;
 }
+
+#surveyName {
+    text-align: center;
+}
+
+#questionNumber {
+    font-size: 1em;
+}
