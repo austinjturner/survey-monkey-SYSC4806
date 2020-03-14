@@ -29,6 +29,14 @@ public class WebControllerTest {
     }
 
     @Test
+    public void checkHomePageStatus() throws Exception {
+        this.mockMvc.perform(get("/home")
+                .with(authentication(getOauthAuthenticationFor(principal))))
+                .andExpect(status().isOk());
+    }
+
+
+    @Test
     public void checkCreateSurveyPageStatus() throws Exception {
         this.mockMvc.perform(get("/create-survey")
                 .with(authentication(getOauthAuthenticationFor(principal))))
@@ -51,6 +59,13 @@ public class WebControllerTest {
     @Test
     public void checkNoAuthenticationOnLoginReturnsError() throws Exception {
         this.mockMvc.perform(get("/login"))
+                .andExpect(status().is(401));
+    }
+
+
+    @Test
+    public void checkNoAuthenticationOnHomeReturnsError() throws Exception {
+        this.mockMvc.perform(get("/home"))
                 .andExpect(status().is(401));
     }
 }

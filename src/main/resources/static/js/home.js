@@ -15,7 +15,7 @@ $(document).ready(function(){
         }
     );
 
-    $.get("/api/user", function(data) {
+    $.get("/login", function(data) {
         $("#user").html(data.name);
 
     });
@@ -26,8 +26,8 @@ $(document).ready(function(){
 // logout function
 const logout = function() {
     $.post("/logout", function() {
-        $("#user").html('');
         window.location.href ="/logout"
+        $("#user").html('');
     });
     return true;
 };

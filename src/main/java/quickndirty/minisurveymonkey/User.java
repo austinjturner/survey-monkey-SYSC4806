@@ -3,6 +3,7 @@ package quickndirty.minisurveymonkey;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,6 +21,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "creator")
     @JsonIgnore
     protected List<Survey> surveys;
+
+    public User(){}
 
     public String getExternalID(){
         return this.externalID;

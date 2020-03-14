@@ -84,6 +84,8 @@ public class WebAppTest {
         MockHttpServletResponse responseResponse = responseResult.getResponse();
         String responseLocation = responseResponse.getHeader("Location");
 
+
+
         //GET THE SURVEY
         this.mockMvc.perform(MockMvcRequestBuilders
                 .get("/api/survey/" + surveyLocation.replaceAll("[^\\d.]", ""))
