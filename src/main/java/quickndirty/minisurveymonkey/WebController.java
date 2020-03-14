@@ -62,7 +62,7 @@ public class WebController {
 
     @GetMapping("/home")
     public String home(Model model) {
-        return "home.html";
+        return "home";
     }
 
     @GetMapping("/archive-surveys")
@@ -71,7 +71,4 @@ public class WebController {
         model.addAttribute("userId", user.getID());
         return "archiveSurveys";
     }
-
-
-
 }

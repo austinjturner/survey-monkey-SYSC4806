@@ -20,10 +20,8 @@ public class LoginController {
         // If this is a new user, save to db
         if (user == null){
             user = new User();
-            System.out.println(principal.getName());
             user.setExternalID(principal.getName());
             user.setName(principal.getAttribute("name"));
-            System.out.println(user.getName());
             userRepository.save(user);
         }
         return user;
