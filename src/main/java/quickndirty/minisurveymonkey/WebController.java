@@ -51,4 +51,10 @@ public class WebController {
         return "createSurvey.html";
     }
 
+    @GetMapping("/home")
+    public String home(Model model) {
+        return "home.html";
+    }
+
+
 }
