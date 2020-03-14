@@ -21,7 +21,7 @@ public class MultipleChoiceQuestionTest {
     }
 
     @Test
-    public void testGetAndAdd() {
+    public void testMethods() {
         choices.add("Yes");
         choices.add("No");
         q = new MultipleChoiceQuestion("Can I offer you a nice egg in this trying time?", choices);
@@ -29,5 +29,7 @@ public class MultipleChoiceQuestionTest {
         assertEquals(choices, q.getChoices());
         q.addChoice("Maybe");
         assertEquals(3, q.getChoices().size());
+        q.removeChoice(2);
+        assertEquals(2, q.getChoices().size());
     }
 }

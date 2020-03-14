@@ -26,6 +26,10 @@ public class MultipleChoiceQuestion extends Question{
         choices.add(choice);
     }
 
+    public void removeChoice(int choiceNumber) {
+        choices.remove(choiceNumber);
+    }
+
     public List<String> getChoices() {
         return choices;
     }
