@@ -14,4 +14,20 @@ $(document).ready(function(){
             }, 200);
         }
     );
+
+    $.get("/api/user", function(data) {
+        $("#user").html(data.name);
+
+    });
+
 });
+
+
+// logout function
+const logout = function() {
+    $.post("/logout", function() {
+        $("#user").html('');
+        window.location.href ="/logout"
+    });
+    return true;
+};
