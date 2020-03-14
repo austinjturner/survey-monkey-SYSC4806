@@ -15,7 +15,7 @@ public class Survey {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "survey")
     protected List<Question> questions;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private User creator;
 
     private String name;
@@ -71,6 +71,14 @@ public class Survey {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public User getCreator(){
+        return this.creator;
+    }
+
+    public void setCreator(User creator){
+        this.creator = creator;
     }
 
     public int size(){
