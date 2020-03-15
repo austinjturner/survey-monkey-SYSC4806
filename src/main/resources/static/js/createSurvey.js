@@ -10,6 +10,20 @@ textInputForm =`
      <textarea id="textQuestionPrompt" name="questionPrompt" rows="2" cols="80"></textarea><br>
      <button type="button" id="addTextQuestion">Add Question</button>
     </div>`
+	
+//Input HTML for creating a Range based question
+rangeInputForm =`
+    <br>
+    <div id="questionInputBlock">
+     <label for="rangeQuestionPrompt">Question:</label><br>
+     <textarea id="rangeQuestionPrompt" name="questionPrompt" rows="2" cols="80"></textarea><br>
+	 <label for="rangeQuestionMin">Range Minimum:</label><br>
+	 <textarea id="rangeQuestionMin" name="questionMin" rows="1" cols="10"></textarea><br>
+	 <label for="rangeQuestionMax">Range Maximum:</label><br>
+	 <textarea id="rangeQuestionMax" name="questionMax" rows="1" cols="10"></textarea><br>
+     <button type="button" id="addRangeQuestion">Add Question</button>
+    </div>`
+
 
 $( document ).ready(function() {
     if(questions.length == 0)
@@ -22,6 +36,8 @@ $(".inputSelect").change(function() {
   $('#questionInput').empty()
   if(inputType =='TEXT'){
      $('#questionInput').append(textInputForm)
+  }else {
+	 $('#questionInput').append(rangeInputForm)
   }
 });
 
@@ -64,12 +80,24 @@ $("#createSurveyForm").on('click', '#addTextQuestion', function () {
      addNewQuestion(prompt, inputType)
 });
 
+// Button listener to add range question to evaluation to array for submission later
+$("#createSurveyForm").on('click', '#addRangeQuestion', function () {
+     prompt = $('#rangeQuestionPrompt').val()
+     inputType =  $(".inputSelect").val()
+	 min = $('#rangeQuestionMin').val()
+	 max = $('#rangeQuestionMax').val()
+     questions.push({'prompt': prompt, 'inputType': inputType, 'min' : min, 'max': max})
+     addNewQuestion(prompt, inputType)
+});
+
 // Adds question to display on table
 function addNewQuestion(questionPrompt, inputType){
     $("#submitSurvey").prop('disabled', false)
     questionRow = "<tr><td>" + questions.length + "</td><td>" + questionPrompt + "</td><td>" + inputType + "</td></tr>"
     $('#questionTBody').append(questionRow)
 }
+
+
 
 function createSurveyRequest(surveyName, creator){
  return new Promise((resolve, reject) => {
