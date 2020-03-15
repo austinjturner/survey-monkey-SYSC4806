@@ -1,6 +1,8 @@
 let surveyHref = ""
 let surveyId = ""
 let questions = []
+
+// Input HTML for creating a text based question
 textInputForm =`
     <br>
     <div id="questionInputBlock">
@@ -14,6 +16,7 @@ $( document ).ready(function() {
     $("#submitSurvey").prop('disabled', true)
 });
 
+// Removes old input, adds new input option in the form based on what question type you wish to create
 $(".inputSelect").change(function() {
   inputType = $(".inputSelect").val()
   $('#questionInput').empty()
@@ -26,13 +29,16 @@ $("#createSurveyForm").submit(function(e){
     e.preventDefault()
     surveyName = $('#surveyName').val();
     creator = $('#surveyCreator').val();
+    // Create initial survey with name parameter so that questions can be added to an existing survey
     createSurveyRequest(surveyName, creator).then(function(result){
         surveyHref = result._links.self.href
         surveyId=result.id
         promises = []
+        // Create a promise for each question that needs to be created through API
         for(var i = 0; i < questions.length; i++){
          promises.push(addQuestionToSurvey(questions[i].prompt, questions[i].inputType))
         }
+        // Make all question creation API calls execute at once, use callback to clean up form for next question
         Promise.all(promises)
          .then(() => {
             surveyMessage = 'Survey can be filled out at: '+ window.location.origin + '/survey/' + surveyId
@@ -50,6 +56,7 @@ $("#createSurveyForm").submit(function(e){
     })
 });
 
+// Button listener to add question to evaluation to array for submission later
 $("#createSurveyForm").on('click', '#addTextQuestion', function () {
      prompt = $('#textQuestionPrompt').val()
      inputType =  $(".inputSelect").val()
@@ -57,6 +64,7 @@ $("#createSurveyForm").on('click', '#addTextQuestion', function () {
      addNewQuestion(prompt, inputType)
 });
 
+// Adds question to display on table
 function addNewQuestion(questionPrompt, inputType){
     $("#submitSurvey").prop('disabled', false)
     questionRow = "<tr><td>" + questions.length + "</td><td>" + questionPrompt + "</td><td>" + inputType + "</td></tr>"
