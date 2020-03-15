@@ -21,6 +21,10 @@ header::after{
     clear:both;
 }
 
+#logout{
+    margin-top:10px;
+}
+
 .logo{
     float:left;
     padding: 10px 0;
@@ -48,8 +52,25 @@ a.custom-card:hover {
   text-decoration: none !important;
 }
 
+.card{
+    height: 325.53px;
+}
+
+
+.card img{
+    height: 180px;
+}
+
+
 .card:hover{
   -webkit-box-shadow: -1px 9px 40px -12px rgba(0,0,0,0.75);
   -moz-box-shadow: -1px 9px 40px -12px rgba(0,0,0,0.75);
   box-shadow:  -1px 9px 40px -12px rgba(0,0,0,0.75);
+}
+
+.logo{
+    position: relative;
+    width: 150px;
+    left: 10px;
+    max-height: 60%;
 }
