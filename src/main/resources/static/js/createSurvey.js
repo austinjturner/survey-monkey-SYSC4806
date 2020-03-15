@@ -52,7 +52,13 @@ $("#createSurveyForm").submit(function(e){
         promises = []
         // Create a promise for each question that needs to be created through API
         for(var i = 0; i < questions.length; i++){
-         promises.push(addQuestionToSurvey(questions[i].prompt, questions[i].inputType))
+			if(questions[i].inputType == 'TEXT'){
+				promises.push(addQuestionToSurvey(questions[i].prompt, questions[i].inputType))
+			}else if(questions[i].inputType == 'NUMBER'{
+				promises.push(addRangeQuestionToSurvey(questions[i].prompt, questions[i].inputType, questions[i].min, questions[i].max))
+			}
+				
+         
         }
         // Make all question creation API calls execute at once, use callback to clean up form for next question
         Promise.all(promises)
@@ -86,15 +92,15 @@ $("#createSurveyForm").on('click', '#addRangeQuestion', function () {
      inputType =  $(".inputSelect").val()
 	 min = $('#rangeQuestionMin').val()
 	 max = $('#rangeQuestionMax').val()
-	 if(max > min  ){
-		 if(isNaN(min) || isNaN(max)){
-			 alert("Maximum and Minimum must both be numbers");
+	 if(isNaN(min) || isNaN(max)  ){
+		 if(max !> min){
+			 alert("Maximum must be above Minimum");
 		 }else{
 			questions.push({'prompt': prompt, 'inputType': inputType, 'min' : min, 'max': max})
 			addNewQuestion(prompt, inputType)
 		 }
 	 }else{
-		 alert("Maximum must be above Minimum");
+		 alert("Maximum and Minimum must both be numbers");
 	 }
 });
 
@@ -136,6 +142,25 @@ function addQuestionToSurvey(questionPrompt, inputType){
       type: 'POST',
       contentType: "application/json",
       data: JSON.stringify({ survey: surveyHref, type: inputType, prompt: questionPrompt }),
+      success: function(data) {
+        resolve(data)
+      },
+      error: function(error) {
+        console.log(error)
+        reject(error)
+      },
+    })
+  })
+}
+
+function addRangeQuestionToSurvey(questionPrompt, inputType, questionMin, questionMax){
+ return new Promise((resolve, reject) => {
+    apiUrl = window.location.origin + '/api/question'
+    $.ajax({
+      url: apiUrl,
+      type: 'POST',
+      contentType: "application/json",
+      data: JSON.stringify({ survey: surveyHref, type: inputType, prompt: questionPrompt , min: questionMin , max: questionMax}),
       success: function(data) {
         resolve(data)
       },
