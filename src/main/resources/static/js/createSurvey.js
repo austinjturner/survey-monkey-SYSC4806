@@ -27,9 +27,10 @@ $(".inputSelect").change(function() {
 
 $("#createSurveyForm").submit(function(e){
     e.preventDefault()
-    surveyName = $('#surveyName').val()
+    surveyName = $('#surveyName').val();
+    creator = $('#surveyCreator').val();
     // Create initial survey with name parameter so that questions can be added to an existing survey
-    createSurveyRequest(surveyName).then(function(result){
+    createSurveyRequest(surveyName, creator).then(function(result){
         surveyHref = result._links.self.href
         surveyId=result.id
         promises = []
@@ -70,14 +71,17 @@ function addNewQuestion(questionPrompt, inputType){
     $('#questionTBody').append(questionRow)
 }
 
-function createSurveyRequest(surveyName){
+function createSurveyRequest(surveyName, creator){
  return new Promise((resolve, reject) => {
     apiUrl = window.location.origin + '/api/survey'
     $.ajax({
       url: apiUrl,
       type: 'POST',
       contentType: "application/json",
-      data: JSON.stringify({name: surveyName}),
+      data: JSON.stringify({
+          name: surveyName,
+          creator: window.location.origin + creator,
+      }),
       success: function(data) {
         resolve(data)
       },
@@ -96,7 +100,7 @@ function addQuestionToSurvey(questionPrompt, inputType){
       type: 'POST',
       contentType: "application/json",
       data: JSON.stringify({ survey: surveyHref, type: inputType, prompt: questionPrompt }),
-      success: function(data) {5
+      success: function(data) {
         resolve(data)
       },
       error: function(error) {

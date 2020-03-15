@@ -1,10 +1,11 @@
 
 $(document).ready(() => {
     // Setup login request
-    $.get("/api/user", function(data) {
+    $.get("/login", function(data) {
         $("#user").html(data.name);
-        $(".unauthenticated").hide();
-        $(".authenticated").show()
+//        $(".unauthenticated").hide();
+//        $(".authenticated").show()
+        window.location.href ="/home"
     });
 });
 
