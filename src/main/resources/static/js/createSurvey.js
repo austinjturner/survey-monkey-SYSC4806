@@ -86,7 +86,7 @@ $("#createSurveyForm").on('click', '#addRangeQuestion', function () {
      inputType =  $(".inputSelect").val()
 	 min = $('#rangeQuestionMin').val()
 	 max = $('#rangeQuestionMax').val()
-	 if(max > min && ){
+	 if(max > min  ){
 		 if(isNaN(min) || isNaN(max)){
 			 alert("Maximum and Minimum must both be numbers");
 		 }else{
