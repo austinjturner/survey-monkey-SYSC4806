@@ -36,7 +36,7 @@ $(".inputSelect").change(function() {
   $('#questionInput').empty()
   if(inputType =='TEXT'){
      $('#questionInput').append(textInputForm)
-  }else {
+  }else if(inputType == 'NUMBER'){
 	 $('#questionInput').append(rangeInputForm)
   }
 });
@@ -86,8 +86,10 @@ $("#createSurveyForm").on('click', '#addRangeQuestion', function () {
      inputType =  $(".inputSelect").val()
 	 min = $('#rangeQuestionMin').val()
 	 max = $('#rangeQuestionMax').val()
-     questions.push({'prompt': prompt, 'inputType': inputType, 'min' : min, 'max': max})
-     addNewQuestion(prompt, inputType)
+	 if(max > min){
+		questions.push({'prompt': prompt, 'inputType': inputType, 'min' : min, 'max': max})
+		addNewQuestion(prompt, inputType)
+	 }
 });
 
 // Adds question to display on table
