@@ -18,9 +18,9 @@ rangeInputForm =`
      <label for="rangeQuestionPrompt">Question:</label><br>
      <textarea id="rangeQuestionPrompt" name="questionPrompt" rows="2" cols="80"></textarea><br>
 	 <label for="rangeQuestionMin">Range Minimum:</label><br>
-	 <textarea id="rangeQuestionMin" name="questionMin" rows="1" cols="10"></textarea><br>
+	 <input type="number" id="rangeQuestionMin" name="questionMin"><br>
 	 <label for="rangeQuestionMax">Range Maximum:</label><br>
-	 <textarea id="rangeQuestionMax" name="questionMax" rows="1" cols="10"></textarea><br>
+	 <input type="number" id="rangeQuestionMax" name="questionMax"> <br>
      <button type="button" id="addRangeQuestion">Add Question</button>
     </div>`
 
@@ -54,7 +54,7 @@ $("#createSurveyForm").submit(function(e){
         for(var i = 0; i < questions.length; i++){
 			if(questions[i].inputType == 'TEXT'){
 				promises.push(addQuestionToSurvey(questions[i].prompt, questions[i].inputType))
-			}else if(questions[i].inputType == 'NUMBER'{
+			}else if(questions[i].inputType == 'NUMBER'){
 				promises.push(addRangeQuestionToSurvey(questions[i].prompt, questions[i].inputType, questions[i].min, questions[i].max))
 			}
 				
@@ -92,16 +92,14 @@ $("#createSurveyForm").on('click', '#addRangeQuestion', function () {
      inputType =  $(".inputSelect").val()
 	 min = $('#rangeQuestionMin').val()
 	 max = $('#rangeQuestionMax').val()
-	 if(isNaN(min) || isNaN(max)  ){
-		 if(max !> min){
-			 alert("Maximum must be above Minimum");
-		 }else{
-			questions.push({'prompt': prompt, 'inputType': inputType, 'min' : min, 'max': max})
-			addNewQuestion(prompt, inputType)
-		 }
-	 }else{
-		 alert("Maximum and Minimum must both be numbers");
-	 }
+	 
+	if(min >= max){
+		alert("Maximum must be above Minimum");
+	}else{
+		questions.push({'prompt': prompt, 'inputType': inputType, 'min' : min, 'max': max})
+		addNewQuestion(prompt, inputType)
+	}
+	 
 });
 
 // Adds question to display on table
