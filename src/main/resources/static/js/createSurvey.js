@@ -47,7 +47,7 @@ MCChoiceInputForm =`
 MCButtonInputForm=	`
     <br>
 	<div id="MCChoicesBlock">
-	<button type="button" id="addMCQuestion">Add Question</button>
+	<button type="button" id="addTextQuestion">Add Question</button>
 	 </div>`
 
 $( document ).ready(function() {
