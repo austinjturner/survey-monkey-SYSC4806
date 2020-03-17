@@ -10,6 +10,20 @@ textInputForm =`
      <textarea id="textQuestionPrompt" name="questionPrompt" rows="2" cols="80"></textarea><br>
      <button type="button" id="addTextQuestion">Add Question</button>
     </div>`
+	
+//Input HTML for creating a Range based question
+rangeInputForm =`
+    <br>
+    <div id="questionInputBlock">
+     <label for="rangeQuestionPrompt">Question:</label><br>
+     <textarea id="rangeQuestionPrompt" name="questionPrompt" rows="2" cols="80"></textarea><br>
+	 <label for="rangeQuestionMin">Range Minimum:</label><br>
+	 <input type="number" id="rangeQuestionMin" name="questionMin"><br>
+	 <label for="rangeQuestionMax">Range Maximum:</label><br>
+	 <input type="number" id="rangeQuestionMax" name="questionMax"> <br>
+     <button type="button" id="addRangeQuestion">Add Question</button>
+    </div>`
+
 
 $( document ).ready(function() {
     if(questions.length == 0)
@@ -22,6 +36,8 @@ $(".inputSelect").change(function() {
   $('#questionInput').empty()
   if(inputType =='TEXT'){
      $('#questionInput').append(textInputForm)
+  }else if(inputType == 'NUMBER'){
+	 $('#questionInput').append(rangeInputForm)
   }
 });
 
@@ -36,7 +52,13 @@ $("#createSurveyForm").submit(function(e){
         promises = []
         // Create a promise for each question that needs to be created through API
         for(var i = 0; i < questions.length; i++){
-         promises.push(addQuestionToSurvey(questions[i].prompt, questions[i].inputType))
+			if(questions[i].inputType == 'TEXT'){
+				promises.push(addQuestionToSurvey(questions[i].prompt, questions[i].inputType))
+			}else if(questions[i].inputType == 'NUMBER'){
+				promises.push(addRangeQuestionToSurvey(questions[i].prompt, questions[i].inputType, questions[i].min, questions[i].max))
+			}
+				
+         
         }
         // Make all question creation API calls execute at once, use callback to clean up form for next question
         Promise.all(promises)
@@ -64,12 +86,30 @@ $("#createSurveyForm").on('click', '#addTextQuestion', function () {
      addNewQuestion(prompt, inputType)
 });
 
+// Button listener to add range question to evaluation to array for submission later
+$("#createSurveyForm").on('click', '#addRangeQuestion', function () {
+     prompt = $('#rangeQuestionPrompt').val()
+     inputType =  $(".inputSelect").val()
+	 min = $('#rangeQuestionMin').val()
+	 max = $('#rangeQuestionMax').val()
+	 
+	if(min >= max){
+		alert("Maximum must be above Minimum");
+	}else{
+		questions.push({'prompt': prompt, 'inputType': inputType, 'min' : min, 'max': max})
+		addNewQuestion(prompt, inputType)
+	}
+	 
+});
+
 // Adds question to display on table
 function addNewQuestion(questionPrompt, inputType){
     $("#submitSurvey").prop('disabled', false)
     questionRow = "<tr><td>" + questions.length + "</td><td>" + questionPrompt + "</td><td>" + inputType + "</td></tr>"
     $('#questionTBody').append(questionRow)
 }
+
+
 
 function createSurveyRequest(surveyName, creator){
  return new Promise((resolve, reject) => {
@@ -100,6 +140,25 @@ function addQuestionToSurvey(questionPrompt, inputType){
       type: 'POST',
       contentType: "application/json",
       data: JSON.stringify({ survey: surveyHref, type: inputType, prompt: questionPrompt }),
+      success: function(data) {
+        resolve(data)
+      },
+      error: function(error) {
+        console.log(error)
+        reject(error)
+      },
+    })
+  })
+}
+
+function addRangeQuestionToSurvey(questionPrompt, inputType, questionMin, questionMax){
+ return new Promise((resolve, reject) => {
+    apiUrl = window.location.origin + '/api/question'
+    $.ajax({
+      url: apiUrl,
+      type: 'POST',
+      contentType: "application/json",
+      data: JSON.stringify({ survey: surveyHref, type: inputType, prompt: questionPrompt , min: questionMin , max: questionMax}),
       success: function(data) {
         resolve(data)
       },
