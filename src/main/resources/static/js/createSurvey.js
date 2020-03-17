@@ -23,7 +23,32 @@ rangeInputForm =`
 	 <input type="number" id="rangeQuestionMax" name="questionMax"> <br>
      <button type="button" id="addRangeQuestion">Add Question</button>
     </div>`
+	
+	
+// Input HTML for creating a MC based question
+MCInputForm =`
+    <br>
+    <div id="questionInputBlock">
+     <label for="MCQuestionPrompt">Question:</label><br>
+     <textarea id="MCQuestionPrompt" name="questionPrompt" rows="2" cols="80"></textarea><br>
+	 <label for="MCQuestionNum">Number of Choices:</label><br>
+	 <input type="number" id="MCQuestionNum" name="questionMin"><br>
+    </div>`
 
+// Input HTML for setting the choices of a MC question
+MCChoiceInputForm =`
+    <br>
+    <div id="MCChoicesBlock">
+     <label for="MCChoicePrompt">Choice:</label><br>
+     <textarea id="MCChoicePrompt" name="MCPrompt" rows="2" cols="80"></textarea><br>
+    </div>`
+	
+// Input HTML for submitting a MC question
+MCButtonInputForm=	`
+    <br>
+	<div id="MCChoicesBlock">
+	<button type="button" id="addMCQuestion">Add Question</button>
+	 </div>`
 
 $( document ).ready(function() {
     if(questions.length == 0)
@@ -38,6 +63,22 @@ $(".inputSelect").change(function() {
      $('#questionInput').append(textInputForm)
   }else if(inputType == 'NUMBER'){
 	 $('#questionInput').append(rangeInputForm)
+  }else if(inputType == 'MC'){
+	 $('#questionInput').append(MCInputForm)
+  }
+});
+
+// Removes old input, adds new input option in the form based on how many choices are desired
+$(".MCQuestionNum").change(function() {
+  choices = $(".MCQuestionNum").val()
+  $('#MCChoices').empty()
+  $('#MCSubmit').empty()
+  if(choices > 0){
+	  for(i = 0; i<choices ; i++){
+		  $('#MCChoices').append(MCChoiceInputForm)
+	  }
+	  $('#MCSubmit').append(MCButtonInputForm)
+     
   }
 });
 
@@ -101,6 +142,8 @@ $("#createSurveyForm").on('click', '#addRangeQuestion', function () {
 	}
 	 
 });
+
+
 
 // Adds question to display on table
 function addNewQuestion(questionPrompt, inputType){
