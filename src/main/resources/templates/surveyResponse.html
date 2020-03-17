@@ -18,10 +18,20 @@
         <div class="">
             <div class="row m-4" th:each="question : ${questions}">
                 <ul class="list-group">
-                    <li class="list-group-item active">
-                        <h2 th:text="${question.prompt}"></h2>
-                    </li>
-                    <li class="list-group-item" th:each="qResult, index : ${results?.get(question.ID)}" th:text="${qResult}"></li>
+                    <div th:switch="${question.type}">
+                        <table th:case="${T(quickndirty.minisurveymonkey.QuestionType).TEXT}">
+                            <tr><th th:text="${question.prompt} "></th></tr>
+                            <tr th:each="mapEntry: ${results?.get(question.ID)}"><td class="list-group-item"  th:text="${mapEntry.value}"></td><tr>
+                        </table>
+                        <table th:case="${T(quickndirty.minisurveymonkey.QuestionType).NUMBER}">
+                            <tr><th th:text="${question.prompt} "></th></tr>
+                            <tr th:each="mapEntry: ${results?.get(question.ID)}"><td class="list-group-item"  th:text="${mapEntry.value}"></td><tr>
+                        </table>
+                        <table th:case="${T(quickndirty.minisurveymonkey.QuestionType).MC}">
+                            <tr><th th:text="${question.prompt} "></th></tr>
+                            <tr th:each="mapEntry: ${results?.get(question.ID)}"><td class="list-group-item"  th:text="${mapEntry.value}"></td><tr>
+                        </table>
+                    </div>
                 </ul>
             </div>
         </div>
