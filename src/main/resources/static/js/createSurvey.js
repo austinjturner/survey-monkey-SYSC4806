@@ -32,7 +32,7 @@ MCInputForm =`
      <label for="MCQuestionPrompt">Question:</label><br>
      <textarea id="MCQuestionPrompt" name="questionPrompt" rows="2" cols="80"></textarea><br>
 	 <label for="MCQuestionNum">Number of Choices:</label><br>
-	 <input type="number" id="MCQuestionNum" name="questionNum"><br>
+	 <input type="number" id="MCQuestionNum" name="MCQuestionNum"><br>
     </div>`
 
 // Input HTML for setting the choices of a MC question
