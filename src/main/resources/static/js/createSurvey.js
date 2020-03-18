@@ -91,6 +91,8 @@ $("#createSurveyForm").submit(function(e){
 				promises.push(addQuestionToSurvey(questions[i].prompt, questions[i].inputType))
 			}else if(questions[i].inputType == 'NUMBER'){
 				promises.push(addRangeQuestionToSurvey(questions[i].prompt, questions[i].inputType, questions[i].min, questions[i].max))
+			}else if(questions[i].inputType == 'MC'){
+				promises.push(addMCQuestionToSurvey(questions[i].prompt, questions[i].inputType, questions[i].options))
 			}
 				
          
@@ -135,6 +137,15 @@ $("#createSurveyForm").on('click', '#addRangeQuestion', function () {
 		addNewQuestion(prompt, inputType)
 	}
 	 
+});
+
+// Button listener to add MC question to evaluation to array for submission later
+$("#createSurveyForm").on('click', '#addTextQuestion', function () {
+     prompt = $('#MCQuestionPrompt').val()
+     inputType =  $(".inputSelect").val()
+     questions.push({'prompt': prompt, 'inputType': inputType, 'options' : choices})
+	 choices = []
+     addNewQuestion(prompt, inputType)
 });
 
 // Button listener to add choice for current question to array for submission later
@@ -182,7 +193,7 @@ function createSurveyRequest(surveyName, creator){
     })
   })
 }
-
+a
 function addQuestionToSurvey(questionPrompt, inputType){
  return new Promise((resolve, reject) => {
     apiUrl = window.location.origin + '/api/question'
@@ -210,6 +221,25 @@ function addRangeQuestionToSurvey(questionPrompt, inputType, questionMin, questi
       type: 'POST',
       contentType: "application/json",
       data: JSON.stringify({ survey: surveyHref, type: inputType, prompt: questionPrompt , min: questionMin , max: questionMax}),
+      success: function(data) {
+        resolve(data)
+      },
+      error: function(error) {
+        console.log(error)
+        reject(error)
+      },
+    })
+  })
+}
+
+function addMCQuestionToSurvey(questionPrompt, inputType, options){
+ return new Promise((resolve, reject) => {
+    apiUrl = window.location.origin + '/api/question'
+    $.ajax({
+      url: apiUrl,
+      type: 'POST',
+      contentType: "application/json",
+      data: JSON.stringify({ survey: surveyHref, type: inputType, prompt: questionPrompt , options: options}),
       success: function(data) {
         resolve(data)
       },
