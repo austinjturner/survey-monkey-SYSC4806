@@ -1,6 +1,7 @@
 let surveyHref = ""
 let surveyId = ""
 let questions = []
+let choices = []
 
 // Input HTML for creating a text based question
 textInputForm =`
@@ -25,30 +26,34 @@ rangeInputForm =`
     </div>`
 	
 	
-// Input HTML for creating a MC based question
+ Input HTML for creating a MC based question
 MCInputForm =`
     <br>
     <div id="questionInputBlock">
      <label for="MCQuestionPrompt">Question:</label><br>
      <textarea id="MCQuestionPrompt" name="questionPrompt" rows="2" cols="80"></textarea><br>
-	 <label for="choiceNum">Number of Choices:</label><br>
-	 <input type="number" id="choiceNum" name="choiceNum"><br>
+	 <label for="MCChoicePrompt">Choice:</label><br>
+     <textarea id="MCChoice" name="MCChoice" rows="2" cols="80"></textarea><br>
+	 <button type="button" id="addChoice">Add Choice</button>
+	 <button type="button" id="deleteChoices">Delete All Choices</button>
+	 <button type="button" id="addTextQuestion">Add Question</button>
+	 
     </div>`
 
 // Input HTML for setting the choices of a MC question
-MCChoiceInputForm =`
-    <br>
-    <div>
-     <label for="MCChoicePrompt">Choice:</label><br>
-     <textarea id="MCChoicePrompt" name="MCPrompt" rows="2" cols="80"></textarea><br>
-    </div>`
+//MCChoiceInputForm =`
+//    <br>
+//    <div>
+//     <label for="MCChoicePrompt">Choice:</label><br>
+//     <textarea id="MCChoicePrompt" name="MCPrompt" rows="2" cols="80"></textarea><br>
+//    </div>`
 	
 // Input HTML for submitting a MC question
-MCButtonInputForm=	`
-    <br>
-	<div>
-	<button type="button" id="addTextQuestion">Add Question</button>
-	 </div>`
+//MCButtonInputForm=	`
+ //   <br>
+//	<div>
+////	<button type="button" id="addTextQuestion">Add Question</button>
+//	 </div>`
 
 $( document ).ready(function() {
     if(questions.length == 0)
@@ -69,19 +74,7 @@ $(".inputSelect").change(function() {
   }
 });
 
-// Removes old input, adds new input option in the form based on how many choices are desired
-$("#choiceNum").change(function() {
-  choices = $("#choiceNum").val()
-  $('#MCChoices').empty()
-  $('#MCSubmit').empty()
-  if(choices > 0){
-	  for(i = 0; i<choices ; i++){
-		  $('#MCChoices').append(MCChoiceInputForm)
-	  }
-	  $('#MCSubmit').append(MCButtonInputForm)
-     
-  }
-});
+
 
 $("#createSurveyForm").submit(function(e){
     e.preventDefault()
@@ -142,6 +135,21 @@ $("#createSurveyForm").on('click', '#addRangeQuestion', function () {
 		addNewQuestion(prompt, inputType)
 	}
 	 
+});
+
+// Button listener to add choice for current question to array for submission later
+$("#createSurveyForm").on('click', '#addChoice', function () {
+     c = $('#MCChoice').val()
+     if(c != ""){
+		 choices.push(c)
+		 $('#MCChoice').empty()
+		 
+	 }
+});
+
+// Button listener to delete currently saved choices
+$("#createSurveyForm").on('click', '#deleteChoices', function () {
+     choices = []
 });
 
 
