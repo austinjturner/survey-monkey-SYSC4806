@@ -36,7 +36,7 @@ MCInputForm =`
      <textarea id="MCChoice" name="MCChoice" rows="2" cols="80"></textarea><br>
 	 <button type="button" id="addChoice">Add Choice</button>
 	 <button type="button" id="deleteChoices">Delete All Choices</button>
-	 <button type="button" id="addTextQuestion">Add Question</button>
+	 <button type="button" id="addMCQuestion">Add Question</button>
 	 
     </div>`
 
@@ -140,7 +140,7 @@ $("#createSurveyForm").on('click', '#addRangeQuestion', function () {
 });
 
 // Button listener to add MC question to evaluation to array for submission later
-$("#createSurveyForm").on('click', '#addTextQuestion', function () {
+$("#createSurveyForm").on('click', '#addMCQuestion', function () {
      prompt = $('#MCQuestionPrompt').val()
      inputType =  $(".inputSelect").val()
      questions.push({'prompt': prompt, 'inputType': inputType, 'options' : choices})
