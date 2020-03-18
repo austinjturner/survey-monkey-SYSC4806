@@ -218,14 +218,14 @@ function addRangeQuestionToSurvey(questionPrompt, inputType, questionMin, questi
   })
 }
 
-function addMCQuestionToSurvey(questionPrompt, inputType, options){
+function addMCQuestionToSurvey(questionPrompt, inputType, choices){
  return new Promise((resolve, reject) => {
     apiUrl = window.location.origin + '/api/question'
     $.ajax({
       url: apiUrl,
       type: 'POST',
       contentType: "application/json",
-      data: JSON.stringify({ survey: surveyHref, type: inputType, prompt: questionPrompt , options: options}),
+      data: JSON.stringify({ survey: surveyHref, type: inputType, prompt: questionPrompt , choices: choices}),
       success: function(data) {
         resolve(data)
       },
