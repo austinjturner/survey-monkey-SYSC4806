@@ -14,7 +14,7 @@ import javax.persistence.*;
 @JsonSubTypes({
 		@JsonSubTypes.Type(value = TextResponse.class, name = "TEXT"),
 		@JsonSubTypes.Type(value = RangeResponse.class, name = "NUMBER"),
-		@JsonSubTypes.Type(value = MCResponse.class, name = "MC")
+		@JsonSubTypes.Type(value = MultipleChoiceResponse.class, name = "MC")
 })
 @Entity
 public abstract class Response {
