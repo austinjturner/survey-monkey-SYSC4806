@@ -129,7 +129,7 @@ $("#createSurveyForm").on('click', '#addRangeQuestion', function () {
 $("#createSurveyForm").on('click', '#addMCQuestion', function () {
      prompt = $('#MCQuestionPrompt').val()
      inputType =  $(".inputSelect").val()
-     questions.push({'prompt': prompt, 'inputType': inputType, 'options' : choices})
+     questions.push({'prompt': prompt, 'inputType': inputType, 'choices' : choices})
 	 choices = []
      addNewQuestion(prompt, inputType)
 });
