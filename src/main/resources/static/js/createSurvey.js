@@ -141,14 +141,14 @@ $("#createSurveyForm").on('click', '#addRangeQuestion', function () {
 $("#createSurveyForm").on('click', '#addChoice', function () {
      c = $('#MCChoice').val()
      choices.push(c)
-	 document.getElementById("MCChoice").reset();
-		 
+	 alert(c);
 	 
 });
 
 // Button listener to delete currently saved choices
 $("#createSurveyForm").on('click', '#deleteChoices', function () {
      choices = []
+	 alert("Choices deleted");
 });
 
 
