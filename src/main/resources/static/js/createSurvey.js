@@ -193,7 +193,7 @@ function createSurveyRequest(surveyName, creator){
     })
   })
 }
-a
+
 function addQuestionToSurvey(questionPrompt, inputType){
  return new Promise((resolve, reject) => {
     apiUrl = window.location.origin + '/api/question'
