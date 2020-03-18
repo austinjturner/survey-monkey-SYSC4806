@@ -69,7 +69,7 @@ $(".inputSelect").change(function() {
 });
 
 // Removes old input, adds new input option in the form based on how many choices are desired
-$(".questionInput.choiceNum").change(function() {
+$("#choiceNum").change(function() {
   choices = $(".questionInput.choiceNum").val()
   $('#MCChoices').empty()
   $('#MCSubmit').empty()
