@@ -40,21 +40,7 @@ MCInputForm =`
 	 
     </div>`
 
-// Input HTML for setting the choices of a MC question
-//MCChoiceInputForm =`
-//    <br>
-//    <div>
-//     <label for="MCChoicePrompt">Choice:</label><br>
-//     <textarea id="MCChoicePrompt" name="MCPrompt" rows="2" cols="80"></textarea><br>
-//    </div>`
-	
-// Input HTML for submitting a MC question
-//MCButtonInputForm=	`
- //   <br>
-//	<div>
-////	<button type="button" id="addTextQuestion">Add Question</button>
-//	 </div>`
-//
+
 
 $( document ).ready(function() {
     if(questions.length == 0)
