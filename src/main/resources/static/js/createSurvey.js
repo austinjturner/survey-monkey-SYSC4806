@@ -54,6 +54,7 @@ MCInputForm =`
 //	<div>
 ////	<button type="button" id="addTextQuestion">Add Question</button>
 //	 </div>`
+//
 
 $( document ).ready(function() {
     if(questions.length == 0)
