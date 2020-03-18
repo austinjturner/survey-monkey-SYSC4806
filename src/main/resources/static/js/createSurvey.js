@@ -31,14 +31,14 @@ MCInputForm =`
     <div id="questionInputBlock">
      <label for="MCQuestionPrompt">Question:</label><br>
      <textarea id="MCQuestionPrompt" name="questionPrompt" rows="2" cols="80"></textarea><br>
-	 <label for="MCQuestionNum">Number of Choices:</label><br>
-	 <input type="number" id="MCQuestionNum" name="MCQuestionNum"><br>
+	 <label for="choiceNum">Number of Choices:</label><br>
+	 <input type="number" id="choiceNum" name="choiceNum"><br>
     </div>`
 
 // Input HTML for setting the choices of a MC question
 MCChoiceInputForm =`
     <br>
-    <div id="MCChoicesBlock">
+    <div>
      <label for="MCChoicePrompt">Choice:</label><br>
      <textarea id="MCChoicePrompt" name="MCPrompt" rows="2" cols="80"></textarea><br>
     </div>`
@@ -46,7 +46,7 @@ MCChoiceInputForm =`
 // Input HTML for submitting a MC question
 MCButtonInputForm=	`
     <br>
-	<div id="MCChoicesBlock">
+	<div>
 	<button type="button" id="addTextQuestion">Add Question</button>
 	 </div>`
 
@@ -69,8 +69,8 @@ $(".inputSelect").change(function() {
 });
 
 // Removes old input, adds new input option in the form based on how many choices are desired
-$(".MCQuestionNum").change(function() {
-  choices = $(".MCQuestionNum").val()
+$(".questionInput.choiceNum").change(function() {
+  choices = $(".questionInput.choiceNum").val()
   $('#MCChoices').empty()
   $('#MCSubmit').empty()
   if(choices > 0){
