@@ -78,7 +78,7 @@ $("#createSurveyForm").submit(function(e){
 			}else if(questions[i].inputType == 'NUMBER'){
 				promises.push(addRangeQuestionToSurvey(questions[i].prompt, questions[i].inputType, questions[i].min, questions[i].max))
 			}else if(questions[i].inputType == 'MC'){
-				promises.push(addMCQuestionToSurvey(questions[i].prompt, questions[i].inputType, questions[i].options))
+				promises.push(addMCQuestionToSurvey(questions[i].prompt, questions[i].inputType, questions[i].choices))
 			}
 				
          
