@@ -65,12 +65,13 @@ $(".inputSelect").change(function() {
 	 $('#questionInput').append(rangeInputForm)
   }else if(inputType == 'MC'){
 	 $('#questionInput').append(MCInputForm)
+	 $('#questionInput').append(MCInputForm)
   }
 });
 
 // Removes old input, adds new input option in the form based on how many choices are desired
 $("#choiceNum").change(function() {
-  choices = $(".questionInput.choiceNum").val()
+  choices = $("#choiceNum").val()
   $('#MCChoices').empty()
   $('#MCSubmit').empty()
   if(choices > 0){
