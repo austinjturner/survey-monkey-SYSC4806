@@ -26,7 +26,7 @@ rangeInputForm =`
     </div>`
 	
 	
- Input HTML for creating a MC based question
+//Input HTML for creating a MC based question
 MCInputForm =`
     <br>
     <div id="questionInputBlock">
