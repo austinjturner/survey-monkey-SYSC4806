@@ -71,7 +71,6 @@ $(".inputSelect").change(function() {
 	 $('#questionInput').append(rangeInputForm)
   }else if(inputType == 'MC'){
 	 $('#questionInput').append(MCInputForm)
-	 $('#questionInput').append(MCInputForm)
   }
 });
 
@@ -141,11 +140,10 @@ $("#createSurveyForm").on('click', '#addRangeQuestion', function () {
 // Button listener to add choice for current question to array for submission later
 $("#createSurveyForm").on('click', '#addChoice', function () {
      c = $('#MCChoice').val()
-     if(c != ""){
-		 choices.push(c)
-		 $('#MCChoice').empty()
+     choices.push(c)
+	 $('#MCChoice').empty()
 		 
-	 }
+	 
 });
 
 // Button listener to delete currently saved choices
