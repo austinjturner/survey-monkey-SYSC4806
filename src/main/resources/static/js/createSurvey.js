@@ -141,7 +141,7 @@ $("#createSurveyForm").on('click', '#addRangeQuestion', function () {
 $("#createSurveyForm").on('click', '#addChoice', function () {
      c = $('#MCChoice').val()
      choices.push(c)
-	 alert(c);
+	 alert("Choice added: "+c);
 	 
 });
 
