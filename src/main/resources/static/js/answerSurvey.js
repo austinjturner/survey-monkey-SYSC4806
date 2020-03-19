@@ -48,11 +48,16 @@ function loadAnsweringDiv(question) {
         case "MC" :
             var choices = question.choices;
             for(var i = 0; i < choices.length; i++) {
-                questionHTML+="insert multiple choice stuff here";
+                questionHTML+='<input type=\"radio\" id=\"'+choices[i]+'\" name=\"answer\" value=\"'+choices[i]+'\">';
+                questionHTML+= '<label for="'+choices[i]+'">'+choices[i]+'</label>'
             }
             break;
         case "NUMBER" :
-            questionHTML+="insert range stuff";
+            questionHTML+='<label for="cars">Choose a number:</label>';
+            questionHTML+='<select id="answer" name="answer">';
+            for( var i = question.min; i<=question.max; i++){
+                questionHTML+="<option value=\""+i+"\">"+i+"</option>";
+            }
             break;
     }
 
