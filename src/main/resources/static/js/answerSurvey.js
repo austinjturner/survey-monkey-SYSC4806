@@ -4,6 +4,10 @@ $(document).ready(() => {
     const nextQuestionLink = $(`#nextBtnLink`).attr(`href`);
     $(`#nextBtn`).remove();
 
+    getQuestion(parseInt($('#surveyQuestionValue')[0].value.split('question/')[1])).then(function(result){
+        loadAnsweringDiv(result);
+    })
+
     $("#submitBtn").click(function(event) {
         event.preventDefault();
         const form = $('#answerSurveyForm');
@@ -30,3 +34,52 @@ $(document).ready(() => {
         })
     });
 });
+
+function loadAnsweringDiv(question) {
+
+    var questionHTML = '<div class="input-group-prepend">\n' +
+        '           <span class="input-group-text">' + question.prompt + '</span>\n' +
+        '           </div>\n';
+
+    switch ($('#surveyTypeValue')[0].value) {
+        case "TEXT" :
+            questionHTML+='<textarea class="form-control" id="surveyTextArea" rows="3" name="answer"></textarea>';
+            break;
+        case "MC" :
+            var choices = question.choices;
+            questionHTML+='<div class="form-control">';
+            for(var i = 0; i < choices.length; i++) {
+                questionHTML+='<input type=\"radio\" id=\"'+choices[i]+'\" name=\"answer\" value=\"'+choices[i]+'\">';
+                questionHTML+='<label for="'+choices[i]+'">'+choices[i]+'</label>';
+            }
+            questionHTML+='<div>';
+            break;
+        case "NUMBER" :
+            questionHTML+='<div class="form-control">';
+            questionHTML+='<label for="cars">Choose a number:</label>';
+            questionHTML+='<select id="answer" name="answer">';
+            for( var i = question.min; i<=question.max; i++){
+                questionHTML+="<option value=\""+i+"\">"+i+"</option>";
+            }
+            questionHTML+='<div>';
+            break;
+    }
+
+    $('#questionContent').append(questionHTML);
+}
+
+function getQuestion(id) {
+    return new Promise((resolve, reject) => {
+        apiUrl = window.location.origin + '/api/question/' + id
+        $.ajax({
+            url: apiUrl,
+            type: 'GET',
+            success: function(data) {
+                resolve(data)
+            },
+            error: function(error) {
+                reject(error)
+            },
+        })
+    })
+}
