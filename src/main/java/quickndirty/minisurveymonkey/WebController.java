@@ -35,7 +35,7 @@ public class WebController {
         Survey survey = surveyRepository.findById(id).get();
         List<Question> questions = surveyRepository.findById(id).get().getQuestions();
         model.addAttribute("questions", survey.getQuestions());
-        model.addAttribute("name", survey.getName());
+        model.addAttribute("surveyName", survey.getName());
         model.addAttribute("questionNumber", questionNumber);
         model.addAttribute("nextQuestionNumber", 1 + questionNumber);
         model.addAttribute("baseUrl", ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString());
