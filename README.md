@@ -13,15 +13,24 @@ This project is continuously integrated via [Travis CI](https://travis-ci.org/) 
 
 - The project is now being tested via Travis CI and deployed to Heroku.
 - The project uses PostgreSQL to persistently store entities
-- Users can create a named survey with multiple questions
-    - Only text-based questions currently
-- Users can respond to the questions in an existing survey
-    - Only text-based responses currently
 - Users can log in via Google or Github
+- Users can create a named survey with multiple questions
+- Users can respond to the questions in an existing survey
+- Question types currently supported:
+  - Text
+  - Multiple choice
+  - Number range
+- The creator of a survey can view the results of surveys they have created
 
 ## Plan for the Next Sprint
-The next sprint will add the 2 additional questions types: Multiple choice and range input. The creator of the survey
-should also be able to view some of the result data (maybe number based, rather than the complete graphical displays).
+- Enable feature toggle
+- Improve UI graphics for viewing results
 
 ## Database Schema
-![DB Schema Diagram](src/images/db_schema.png?raw=true "DB Schema Diagram")
+### ORM Diagram
+This diagram represents the ER model which the ORM is trying map to the schema
+![DB Schema Diagram](src/images/orm_diagram.png?raw=true "DB Schema Diagram")
+
+### Schema Diagram
+This diagram is a representation of the actual schema in the PostgreSQL database
+![DB Schema Diagram](src/images/schema_diagram.png?raw=true "DB Schema Diagram")
