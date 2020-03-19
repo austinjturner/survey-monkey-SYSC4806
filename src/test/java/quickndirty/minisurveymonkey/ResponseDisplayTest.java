@@ -1,7 +1,6 @@
 package quickndirty.minisurveymonkey;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
@@ -16,17 +15,18 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static quickndirty.minisurveymonkey.OAuthUtils.getOauthAuthenticationFor;
 
 @SpringBootTest(classes={MinisurveymonkeyApplication.class})
 @AutoConfigureMockMvc
-public class WebAppTest {
+public class ResponseDisplayTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     private OAuth2User principal;
 
     @BeforeEach
@@ -38,25 +38,22 @@ public class WebAppTest {
     @Test
     @Order(1)
     public void testIntegration() throws Exception {
-        //POST A SURVEY WITHOUT AUTHENTICATION
-        this.mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/survey")
-                .contentType("application/json")
-                .content("{\"name\":\"Test class survey\"}"))
-                .andExpect(status().is(401))
-                .andReturn();
+        String surveyName = "Test Survey AAA";
+        String surveyResponse1 = "Answer 1";
+        String surveyResponse2 = "Answer 2";
 
         //POST A SURVEY
         MvcResult surveyResult = this.mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/survey")
                 .contentType("application/json")
-                .content("{\"name\":\"Test class survey\"" +
-                        ",\"creator\":\"/api/user/2\"}")
+                .content("{\"name\":\"Test Survey AAA\"}")
                 .with(authentication(getOauthAuthenticationFor(principal))))
                 .andExpect(status().isCreated())
                 .andReturn();
         MockHttpServletResponse response = surveyResult.getResponse();
         String surveyLocation = response.getHeader("Location");
+        String[] surveyArr = surveyLocation.split("/");
+        String surveyID = surveyArr[surveyArr.length - 1];
 
         //POST A QUESTION
         MvcResult questionResult = this.mockMvc.perform(MockMvcRequestBuilders
@@ -64,52 +61,42 @@ public class WebAppTest {
                 .contentType("application/json")
                 .content("{\"survey\":\"" + surveyLocation + "\"" +
                         ",\"type\":\"TEXT\"," +
-                        "\"prompt\":\"This is a test question\"}")
+                        "\"prompt\":\"" + surveyName  + "\"}")
                 .with(authentication(getOauthAuthenticationFor(principal))))
                 .andExpect(status().isCreated())
                 .andReturn();
         MockHttpServletResponse questionResponse = questionResult.getResponse();
         String questionLocation = questionResponse.getHeader("Location");
 
-        //POST A RESPONSE
-        MvcResult responseResult = this.mockMvc.perform(MockMvcRequestBuilders
+        //POST 2 RESPONSES
+        MvcResult responseResult1 = this.mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/response")
                 .contentType("application/json")
                 .content("{\"question\":\"" + questionLocation + "\"" +
                         ",\"type\":\"TEXT\"," +
-                        "\"answer\":\"This is a test response\"}")
+                        "\"answer\":\"" + surveyResponse1 +"\"}")
                 .with(authentication(getOauthAuthenticationFor(principal))))
                 .andExpect(status().isCreated())
                 .andReturn();
-        MockHttpServletResponse responseResponse = responseResult.getResponse();
-        String responseLocation = responseResponse.getHeader("Location");
 
+        MvcResult responseResult2 = this.mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/response")
+                .contentType("application/json")
+                .content("{\"question\":\"" + questionLocation + "\"" +
+                        ",\"type\":\"TEXT\"," +
+                        "\"answer\":\"" + surveyResponse2 +"\"}")
+                .with(authentication(getOauthAuthenticationFor(principal))))
+                .andExpect(status().isCreated())
+                .andReturn();
 
-
-        //GET THE SURVEY
+        //GET THE SURVEY RESPONSE PAGE
         this.mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/survey/" + surveyLocation.replaceAll("[^\\d.]", ""))
-                .accept(MediaType.APPLICATION_JSON)
+                .get("/survey/" + surveyID + "/responses")
                 .with(authentication(getOauthAuthenticationFor(principal))))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is("Test class survey")))
-                .andExpect(jsonPath("$._links.creator.href", matchesPattern(".*/creator")));
-
-        //GET THE QUESTION
-        this.mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/question/" + questionLocation.replaceAll("[^\\d.]", ""))
-                .accept(MediaType.APPLICATION_JSON)
-                .with(authentication(getOauthAuthenticationFor(principal))))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.prompt", is("This is a test question")));
-
-        //GET THE RESPONSE
-        this.mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/response/" + responseLocation.replaceAll("[^\\d.]", ""))
-                .accept(MediaType.APPLICATION_JSON)
-                .with(authentication(getOauthAuthenticationFor(principal))))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.answer", is("This is a test response")));
+                .andExpect(content().string(containsString(surveyName)))
+                .andExpect(content().string(containsString(surveyResponse1)))
+                .andExpect(content().string(containsString(surveyResponse2)));
 
         //DELETE THE SURVEY
         this.mockMvc.perform(MockMvcRequestBuilders

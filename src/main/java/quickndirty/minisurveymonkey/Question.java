@@ -17,7 +17,7 @@ import javax.persistence.*;
 @JsonSubTypes({
 		@JsonSubTypes.Type (value = TextQuestion.class, name = "TEXT"),
 		@JsonSubTypes.Type(value = RangeQuestion.class, name = "NUMBER"),
-		//@JsonSubTypes.Type(value = MCQuestion.class, name = "MC")
+		@JsonSubTypes.Type(value = MultipleChoiceQuestion.class, name = "MC")
 		
 		
 })
