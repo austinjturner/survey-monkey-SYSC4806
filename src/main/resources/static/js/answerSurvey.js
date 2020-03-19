@@ -56,7 +56,7 @@ function loadAnsweringDiv(question) {
             break;
         case "NUMBER" :
             questionHTML+='<div class="form-control">';
-            questionHTML+='<label for="cars">Choose a number:</label>';
+            questionHTML+='<label for="answer">Choose a number:</label>';
             questionHTML+='<select id="answer" name="answer">';
             for( var i = question.min; i<=question.max; i++){
                 questionHTML+="<option value=\""+i+"\">"+i+"</option>";
