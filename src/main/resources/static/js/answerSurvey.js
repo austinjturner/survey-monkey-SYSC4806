@@ -47,17 +47,21 @@ function loadAnsweringDiv(question) {
             break;
         case "MC" :
             var choices = question.choices;
+            questionHTML+='<div class="form-control">';
             for(var i = 0; i < choices.length; i++) {
                 questionHTML+='<input type=\"radio\" id=\"'+choices[i]+'\" name=\"answer\" value=\"'+choices[i]+'\">';
-                questionHTML+= '<label for="'+choices[i]+'">'+choices[i]+'</label>'
+                questionHTML+='<label for="'+choices[i]+'">'+choices[i]+'</label>';
             }
+            questionHTML+='<div>';
             break;
         case "NUMBER" :
+            questionHTML+='<div class="form-control">';
             questionHTML+='<label for="cars">Choose a number:</label>';
             questionHTML+='<select id="answer" name="answer">';
             for( var i = question.min; i<=question.max; i++){
                 questionHTML+="<option value=\""+i+"\">"+i+"</option>";
             }
+            questionHTML+='<div>';
             break;
     }
 
