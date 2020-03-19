@@ -37,28 +37,22 @@ $(document).ready(() => {
 
 function loadAnsweringDiv(question) {
 
-    var questionHTML = '';
+    var questionHTML = '<div class="input-group-prepend">\n' +
+        '           <span class="input-group-text">' + question.prompt + '</span>\n' +
+        '           </div>\n';
 
     switch ($('#surveyTypeValue')[0].value) {
         case "TEXT" :
-            questionHTML = '<div class="input-group-prepend">\n' +
-                '           <span class="input-group-text" ' + question.getPrompt()+ '></span>\n' +
-                '           </div>\n' +
-                '           <textarea class="form-control" id="surveyTextArea" rows="3" name="answer"></textarea>'
+            questionHTML+='<textarea class="form-control" id="surveyTextArea" rows="3" name="answer"></textarea>';
             break;
         case "MC" :
-            //UPDATE
-            questionHTML = '<div class="input-group-prepend">\n' +
-                '           <span class="input-group-text" th:text="${questions.get(questionNumber).getPrompt()}"></span>\n' +
-                '           </div>\n' +
-                '           <textarea class="form-control" id="surveyTextArea" rows="3" name="answer"></textarea>'
+            var choices = question.choices;
+            for(var i = 0; i < choices.length; i++) {
+                questionHTML+="insert multiple choice stuff here";
+            }
             break;
-        case "RANGE" :
-            //UPDATE
-            questionHTML = '<div class="input-group-prepend">\n' +
-                '           <span class="input-group-text" th:text="${questions.get(questionNumber).getPrompt()}"></span>\n' +
-                '           </div>\n' +
-                '           <textarea class="form-control" id="surveyTextArea" rows="3" name="answer"></textarea>'
+        case "NUMBER" :
+            questionHTML+="insert range stuff";
             break;
     }
 
