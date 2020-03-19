@@ -84,6 +84,31 @@ public class WebController {
                 }
                 resultsMap.put(questionObj.getID(), rangeAppearances);
             }
+           else if(questionObj.type == QuestionType.MC) {
+                List<String> mcResults = new ArrayList<>();
+                for(int k = 0; k < questionObj.responses.size(); k++) {
+                    MultipleChoiceResponse mcResp = (MultipleChoiceResponse) questionObj.responses.get(k);
+                    mcResults.add(mcResp.getAnswer());
+                }
+                HashMap<String, Integer> mcAppearances = new HashMap<String, Integer>();
+                for(String n: mcResults) {
+                    if(mcAppearances.containsKey(n)) {
+                        int counter = mcAppearances.get(n);
+                        counter = counter+1;
+                        mcAppearances.put(n, counter);
+                    } else {
+                        mcAppearances.put(n, 1);
+                    }
+                }
+                // If no response chose an option, set occurrences to 0
+                MultipleChoiceQuestion question = (MultipleChoiceQuestion) questionObj;
+                for(String m: question.getChoices()) {
+                    if(!mcAppearances.containsKey(m)) {
+                        mcAppearances.put(m, 0);
+                    }
+                }
+                resultsMap.put(questionObj.getID(), mcAppearances);
+            }
         }
         model.addAttribute("questions", survey.getQuestions());
         model.addAttribute("results", resultsMap);
