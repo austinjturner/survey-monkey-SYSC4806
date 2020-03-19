@@ -1,6 +1,7 @@
 let surveyHref = ""
 let surveyId = ""
 let questions = []
+let choices = []
 
 // Input HTML for creating a text based question
 textInputForm =`
@@ -23,6 +24,22 @@ rangeInputForm =`
 	 <input type="number" id="rangeQuestionMax" name="questionMax"> <br>
      <button type="button" id="addRangeQuestion">Add Question</button>
     </div>`
+	
+	
+//Input HTML for creating a MC based question
+MCInputForm =`
+    <br>
+    <div id="questionInputBlock">
+     <label for="MCQuestionPrompt">Question:</label><br>
+     <textarea id="MCQuestionPrompt" name="questionPrompt" rows="2" cols="80"></textarea><br>
+	 <label for="MCChoicePrompt">Choice:</label><br>
+     <textarea id="MCChoice" name="MCChoice" rows="2" cols="80"></textarea><br>
+	 <button type="button" id="addChoice">Add Choice</button>
+	 <button type="button" id="deleteChoices">Delete All Choices</button>
+	 <button type="button" id="addMCQuestion">Add Question</button>
+	 
+    </div>`
+
 
 
 $( document ).ready(function() {
@@ -38,8 +55,12 @@ $(".inputSelect").change(function() {
      $('#questionInput').append(textInputForm)
   }else if(inputType == 'NUMBER'){
 	 $('#questionInput').append(rangeInputForm)
+  }else if(inputType == 'MC'){
+	 $('#questionInput').append(MCInputForm)
   }
 });
+
+
 
 $("#createSurveyForm").submit(function(e){
     e.preventDefault()
@@ -56,6 +77,8 @@ $("#createSurveyForm").submit(function(e){
 				promises.push(addQuestionToSurvey(questions[i].prompt, questions[i].inputType))
 			}else if(questions[i].inputType == 'NUMBER'){
 				promises.push(addRangeQuestionToSurvey(questions[i].prompt, questions[i].inputType, questions[i].min, questions[i].max))
+			}else if(questions[i].inputType == 'MC'){
+				promises.push(addMCQuestionToSurvey(questions[i].prompt, questions[i].inputType, questions[i].choices))
 			}
 				
          
@@ -101,6 +124,31 @@ $("#createSurveyForm").on('click', '#addRangeQuestion', function () {
 	}
 	 
 });
+
+// Button listener to add MC question to evaluation to array for submission later
+$("#createSurveyForm").on('click', '#addMCQuestion', function () {
+     prompt = $('#MCQuestionPrompt').val()
+     inputType =  $(".inputSelect").val()
+     questions.push({'prompt': prompt, 'inputType': inputType, 'choices' : choices})
+	 choices = []
+     addNewQuestion(prompt, inputType)
+});
+
+// Button listener to add choice for current question to array for submission later
+$("#createSurveyForm").on('click', '#addChoice', function () {
+     c = $('#MCChoice').val()
+     choices.push(c)
+	 alert("Choice added: "+c);
+	 
+});
+
+// Button listener to delete currently saved choices
+$("#createSurveyForm").on('click', '#deleteChoices', function () {
+     choices = []
+	 alert("Choices deleted");
+});
+
+
 
 // Adds question to display on table
 function addNewQuestion(questionPrompt, inputType){
@@ -159,6 +207,25 @@ function addRangeQuestionToSurvey(questionPrompt, inputType, questionMin, questi
       type: 'POST',
       contentType: "application/json",
       data: JSON.stringify({ survey: surveyHref, type: inputType, prompt: questionPrompt , min: questionMin , max: questionMax}),
+      success: function(data) {
+        resolve(data)
+      },
+      error: function(error) {
+        console.log(error)
+        reject(error)
+      },
+    })
+  })
+}
+
+function addMCQuestionToSurvey(questionPrompt, inputType, choices){
+ return new Promise((resolve, reject) => {
+    apiUrl = window.location.origin + '/api/question'
+    $.ajax({
+      url: apiUrl,
+      type: 'POST',
+      contentType: "application/json",
+      data: JSON.stringify({ survey: surveyHref, type: inputType, prompt: questionPrompt , choices: choices}),
       success: function(data) {
         resolve(data)
       },
