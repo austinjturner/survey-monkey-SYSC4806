@@ -91,7 +91,7 @@ public class WebController {
     @GetMapping("/archive-surveys")
     public String userSurveys(@AuthenticationPrincipal OAuth2User principal, Model model) {
         User user = userRepository.findByExternalID(principal.getName());
-        model.addAttribute("userId", user.getID());
-        return "archiveSurveys";
+        model.addAttribute("user", user);
+        return "archive";
     }
 }
