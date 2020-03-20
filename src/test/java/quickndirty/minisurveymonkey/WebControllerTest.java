@@ -52,14 +52,14 @@ public class WebControllerTest {
 
     @Test
     public void checkSurveyResponsesPageStatus() throws Exception {
-        this.mockMvc.perform(get("/survey/1/responses")
+        this.mockMvc.perform(get("/survey/0/responses")
                 .with(authentication(getOauthAuthenticationFor(principal))))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void checkNoAuthenticationReturnsError() throws Exception {
-        this.mockMvc.perform(get("/survey/1"))
+        this.mockMvc.perform(get("/survey/0"))
                 .andExpect(status().is(401));
     }
 
