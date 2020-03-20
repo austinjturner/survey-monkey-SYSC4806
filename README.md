@@ -26,10 +26,13 @@ This project is continuously integrated via [Travis CI](https://travis-ci.org/) 
 - Enable feature toggle
 - Improve UI graphics for viewing results
 
-## Database Schema
+## Diagrams
+### UML Diagram
+![UML Diagram](src/images/uml_diagram.png?raw=true "UML Diagram")
+
 ### ORM Diagram
 This diagram represents the ER model which the ORM is trying map to the schema
-![DB Schema Diagram](src/images/orm_diagram.png?raw=true "DB Schema Diagram")
+![ORM Diagram](src/images/orm_diagram.png?raw=true "ORM Diagram")
 
 ### Schema Diagram
 This diagram is a representation of the actual schema in the PostgreSQL database
