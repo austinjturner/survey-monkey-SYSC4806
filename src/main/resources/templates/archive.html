@@ -33,7 +33,7 @@
             <h2><span id="user"></span>'s Surveys:</h2>
         </div>
 
-        <div class="container d-flex justify-content-around align-items-center mt-5 pt-2">
+        <div class="container d-flex justify-content-start align-items-center mt-5 pt-2">
             <div class="row m-4" th:each="survey : ${user.getSurveys()}">
                 <a th:href="@{|/api/survey/${survey.getID()}/questions|}" class = "custom-card">
                     <div class = "card">

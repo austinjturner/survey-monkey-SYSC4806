@@ -58,16 +58,20 @@ a img{
   text-decoration: none !important;
 }
 
-/*
+.d-flex {
+    overflow-x: auto;
+}
+
 .card{
     height: 325.53px;
+    width: 300px;
 }
 
 
 .card img{
     height: 180px;
 }
-*/
+
 
 .card:hover{
   -webkit-box-shadow: -1px 9px 40px -12px rgba(0,0,0,0.75);
