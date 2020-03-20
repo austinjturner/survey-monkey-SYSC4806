@@ -58,14 +58,18 @@ a img{
   text-decoration: none !important;
 }
 
+.d-flex {
+    overflow-x: auto;
+}
 
 .card{
     height: 325.53px;
+    width: 300px;
 }
 
 
 .card img{
-    height: 200px;
+    height: 180px;
 }
 
 

@@ -35,6 +35,12 @@ public class WebControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void checkArchivePageStatus() throws Exception {
+        this.mockMvc.perform(get("/archive-surveys")
+                .with(authentication(getOauthAuthenticationFor(principal))))
+                .andExpect(status().isOk());
+    }
 
     @Test
     public void checkCreateSurveyPageStatus() throws Exception {
