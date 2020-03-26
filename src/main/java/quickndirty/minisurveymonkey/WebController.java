@@ -9,11 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.togglz.core.manager.FeatureManager;
 
 import java.util.*;
 
 @Controller
 public class WebController {
+
+    @Autowired
+    private FeatureManager featureManager;
 
     @Autowired
     private SurveyRepository surveyRepository;
@@ -113,6 +117,12 @@ public class WebController {
         model.addAttribute("questions", survey.getQuestions());
         model.addAttribute("results", resultsMap);
         model.addAttribute("name", survey.getName());
+        if (featureManager.isActive(ApplicationFeatures.GRAPHICAL_RESPONSES)) {
+            model.addAttribute("featureVar", "GRAPHICAL_RESPONSES");
+        }
+        else{
+            model.addAttribute("featureVar", "BASIC_RESPONSES");
+        }
         return "surveyResponse";
     }
 
