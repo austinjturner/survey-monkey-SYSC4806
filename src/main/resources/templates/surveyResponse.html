@@ -5,7 +5,7 @@
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
-<script src="/js/responseSurvey.js"></script>
+<script th:if="${featureVar} == 'GRAPHICAL_RESPONSES'" src="/js/responseSurvey.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/answerSurvey.css">
 <head>
     <title th:text="${name}"></title>
@@ -23,7 +23,7 @@
                         <div th:switch="${question.type}">
                             <div th:case="${T(quickndirty.minisurveymonkey.QuestionType).TEXT}" class="question-container" data-question-type="TEXT">
                                 <h2 th:text="${question.prompt}"></h2>
-                                <table class="table table-striped table-bordered table-hover table-dark">
+                                <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr><th>All Responses</th></tr>
                                     </thead>
@@ -34,7 +34,7 @@
                             </div><br><br>
                             <div th:case="${T(quickndirty.minisurveymonkey.QuestionType).NUMBER}" class="question-container" data-question-type="NUMBER" th:data-question-min="${question.min}" th:data-question-max="${question.max}">
                                 <h2 th:text="${question.prompt} + ' - Between ' + ${question.min} + ' and ' + ${question.max}"></h2>
-                                <table class="table table-striped table-bordered table-hover table-dark">
+                                <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr><th>Range Value</th><th># of occurrences</th></tr>
                                     </thead>
@@ -45,7 +45,7 @@
                             </div><br><br>
                             <div th:case="${T(quickndirty.minisurveymonkey.QuestionType).MC}" class="question-container" data-question-type="MC">
                                 <h2 th:text="${question.prompt}"></h2>
-                                <table class="table table-striped table-bordered table-hover table-dark">
+                                <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr><th>Choice</th><th># of occurrences</th></tr>
                                     </thead>
@@ -56,7 +56,7 @@
                             </div><br><br>
                         </div>
                     </ul>
-                <div>
+                </div>
             </div>
         </div>
     </div>
