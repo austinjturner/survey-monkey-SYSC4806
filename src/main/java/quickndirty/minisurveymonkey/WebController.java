@@ -120,6 +120,9 @@ public class WebController {
         if (featureManager.isActive(ApplicationFeatures.GRAPHICAL_RESPONSES)) {
             model.addAttribute("featureVar", "GRAPHICAL_RESPONSES");
         }
+        else{
+            model.addAttribute("featureVar", "BASIC_RESPONSES");
+        }
         return "surveyResponse";
     }
 

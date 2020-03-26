@@ -92,31 +92,31 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-<!-- TEST -->
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.togglz</groupId>
 			<artifactId>togglz-spring-boot-starter</artifactId>
 			<version>2.6.1.Final</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.togglz</groupId>
 			<artifactId>togglz-spring-security</artifactId>
 			<version>2.6.1.Final</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.togglz</groupId>
 			<artifactId>togglz-console</artifactId>
 			<version>2.6.1.Final</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.togglz</groupId>
+			<artifactId>togglz-junit</artifactId>
+			<version>2.6.1.Final</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

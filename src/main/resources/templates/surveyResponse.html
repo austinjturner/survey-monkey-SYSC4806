@@ -12,9 +12,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+
     <nav class="navbar navbar-dark bg-dark">
         <a class="navbar-brand" href="#" th:text="'Responses for ' + ${name}"></a>
     </nav>
+    <div th:switch="${featureVar}">
+        <p hidden th:case="GRAPHICAL_RESPONSES" th:text="${featureVar}"></p>
+        <p hidden th:case="BASIC_RESPONSES" th:text="${featureVar}"></p>
+    </div>
     <div class="container-flex">
         <div class="">
             <div class="row justify-content-center" th:each="question : ${questions}">
