@@ -20,7 +20,7 @@ public class SurveyTests {
 
     @Test
     public void isClosed(){
-        assertFalse(survey.isClosed());
+        assertFalse(survey.getClosed());
     }
 
     @Test
@@ -50,8 +50,8 @@ public class SurveyTests {
 
     @Test
     public void close(){
-        survey.close();
-        assertTrue(survey.isClosed());
+        survey.setClosed();
+        assertTrue(survey.getClosed());
     }
 
 

@@ -20,7 +20,7 @@ public class Survey {
 
     private String name;
 
-    private boolean isClosed;
+    private boolean closed;
 
     public Survey(){
         // create survey with default name
@@ -30,7 +30,7 @@ public class Survey {
     public Survey(String name) {
         questions = new ArrayList<Question>();
         this.name = name;
-        this.isClosed = false;
+        this.closed = false;
     }
 
     public int getID() {
@@ -57,12 +57,12 @@ public class Survey {
         this.questions.remove(q);
     }
 
-    public boolean isClosed(){
-        return this.isClosed;
+    public boolean getClosed(){
+        return this.closed;
     }
 
-    public void close(){
-        this.isClosed=true;
+    public void setClosed(){
+        this.closed=true;
     }
 
     public String getName() {

@@ -1,5 +1,7 @@
 
 $(document).ready(() => {
+
+
     // remove the next button, automatically go to next on submit
     const nextQuestionLink = $(`#nextBtnLink`).attr(`href`);
     $(`#nextBtn`).remove();

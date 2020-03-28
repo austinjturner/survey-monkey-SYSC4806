@@ -44,6 +44,9 @@ public class WebController {
         model.addAttribute("nextQuestionNumber", 1 + questionNumber);
         model.addAttribute("baseUrl", ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString());
 
+        if(survey.getClosed()) {
+            return "surveyClosed";
+        }
         if (questionNumber + 1 > questions.size()){
             return "completeSurvey";
         }
