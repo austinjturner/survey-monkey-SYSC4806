@@ -106,7 +106,10 @@ function buildHistogram(container, dataMap){
 
     // Need to sort the keys to properly display the range
     let keys = Object.keys(dataMap);
-    keys.sort();
+
+    keys.sort((a, b) => {
+        return a - b;
+    });
     let values = [];
     for (key of keys){
         values.push(dataMap[key]);

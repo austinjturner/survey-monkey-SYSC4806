@@ -51,7 +51,7 @@ function loadAnsweringDiv(question) {
             var choices = question.choices;
             questionHTML+='<div class="form-control">';
             for(var i = 0; i < choices.length; i++) {
-                questionHTML+='<input type=\"radio\" id=\"'+choices[i]+'\" name=\"answer\" value=\"'+choices[i]+'\">';
+                questionHTML+='<input class="ml-4" type=\"radio\" id=\"'+choices[i]+'\" name=\"answer\" value=\"'+choices[i]+'\">';
                 questionHTML+='<label for="'+choices[i]+'">'+choices[i]+'</label>';
             }
             questionHTML+='<div>';
