@@ -1,10 +1,9 @@
 
 $(document).ready(function(){
 
-    $('#closeSurvey').click(function (e) {
-        id = $('#closeSurvey').data().el_id
-        closeSurvey(id);
-    })
+    $("button").on('click', function(event){
+        closeSurvey(this.id);
+    });
 
     $('.card').hover(
         function(){

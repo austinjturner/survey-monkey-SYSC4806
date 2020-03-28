@@ -41,7 +41,7 @@
                         <div class = "card-body">
                             <h4 class="card-title text-center" th:text="${survey.getName()}"></h4>
                         </div>
-                        <button id="closeSurvey" th:attr="data-el_id=${survey.getID()}">Close Survey</button>
+                        <button th:id="${survey.getID()}">Close Survey</button>
                     </div>
                 </a>
             </div>
