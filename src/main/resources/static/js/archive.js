@@ -1,6 +1,10 @@
 
 $(document).ready(function(){
 
+    $("button").on('click', function(event){
+        closeSurvey(this.id);
+    });
+
     $('.card').hover(
         function(){
             $(this).animate({
@@ -32,3 +36,14 @@ const logout = function() {
     });
     return true;
 };
+
+function closeSurvey(id) {
+    apiUrl = window.location.origin + '/api/survey/'+id
+    $.ajax({
+        url: apiUrl,
+        type: 'PATCH',
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify({ closed: true })
+    })
+}

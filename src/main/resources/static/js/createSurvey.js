@@ -64,40 +64,32 @@ $(".inputSelect").change(function() {
 
 $("#createSurveyForm").submit(function(e){
     e.preventDefault()
-    surveyName = $('#surveyName').val();
-    creator = $('#surveyCreator').val();
+    const surveyName = $('#surveyName').val();
+    const creator = $('#surveyCreator').val();
     // Create initial survey with name parameter so that questions can be added to an existing survey
-    createSurveyRequest(surveyName, creator).then(function(result){
-        surveyHref = result._links.self.href
-        surveyId=result.id
-        promises = []
+    createSurveyRequest(surveyName, creator).then(async function(result){
+        surveyHref = result._links.self.href;
+        surveyId=result.id;
         // Create a promise for each question that needs to be created through API
-        for(var i = 0; i < questions.length; i++){
-			if(questions[i].inputType == 'TEXT'){
-				promises.push(addQuestionToSurvey(questions[i].prompt, questions[i].inputType))
-			}else if(questions[i].inputType == 'NUMBER'){
-				promises.push(addRangeQuestionToSurvey(questions[i].prompt, questions[i].inputType, questions[i].min, questions[i].max))
-			}else if(questions[i].inputType == 'MC'){
-				promises.push(addMCQuestionToSurvey(questions[i].prompt, questions[i].inputType, questions[i].choices))
-			}
-				
-         
+        for(let i = 0; i < questions.length; i++){
+            if(questions[i].inputType === 'TEXT'){
+                await addQuestionToSurvey(questions[i].prompt, questions[i].inputType);
+            }else if(questions[i].inputType === 'NUMBER'){
+                await addRangeQuestionToSurvey(questions[i].prompt, questions[i].inputType, questions[i].min, questions[i].max);
+            }else if(questions[i].inputType === 'MC') {
+                await addMCQuestionToSurvey(questions[i].prompt, questions[i].inputType, questions[i].choices);
+            }
         }
-        // Make all question creation API calls execute at once, use callback to clean up form for next question
-        Promise.all(promises)
-         .then(() => {
-            surveyMessage = 'Survey can be filled out at: '+ window.location.origin + '/survey/' + surveyId
-            $('#surveyName').val('')
-            $('#textQuestionPrompt').val('')
-            surveyHref = ""
-            surveyId = ""
-            questions = []
-            $('#questionTBody').empty()
-            console.log('SurveyUrl')
-            alert(surveyMessage)
-         })
-         .catch((e) => {
-        });
+
+        const surveyMessage = 'Survey can be filled out at: '+ window.location.origin + '/survey/' + surveyId;
+        $('#surveyName').val('');
+        $('#textQuestionPrompt').val('');
+        surveyHref = "";
+        surveyId = "";
+        questions = [];
+        $('#questionTBody').empty();
+        console.log(surveyMessage);
+        alert(surveyMessage)
     })
 });
 
