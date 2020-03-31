@@ -18,3 +18,11 @@ th {
   text-align: left;
   background-color: #bdbdbd;
 }
+
+#createSurveyBody {
+    padding: 3%
+}
+
+#choiceList > .input-group {
+    max-width: 50%;
+}

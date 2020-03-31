@@ -1,7 +1,6 @@
-let surveyHref = ""
-let surveyId = ""
-let questions = []
-let choices = []
+let surveyHref = "";
+let surveyId = "";
+let questions = [];
 
 // Input HTML for creating a text based question
 textInputForm =`
@@ -10,7 +9,7 @@ textInputForm =`
      <label for="textQuestionPrompt">Question:</label><br>
      <textarea id="textQuestionPrompt" name="questionPrompt" rows="2" cols="80"></textarea><br>
      <button type="button" id="addTextQuestion">Add Question</button>
-    </div>`
+    </div>`;
 	
 //Input HTML for creating a Range based question
 rangeInputForm =`
@@ -23,7 +22,7 @@ rangeInputForm =`
 	 <label for="rangeQuestionMax">Range Maximum:</label><br>
 	 <input type="number" id="rangeQuestionMax" name="questionMax"> <br>
      <button type="button" id="addRangeQuestion">Add Question</button>
-    </div>`
+    </div>`;
 	
 	
 //Input HTML for creating a MC based question
@@ -32,14 +31,24 @@ MCInputForm =`
     <div id="questionInputBlock">
      <label for="MCQuestionPrompt">Question:</label><br>
      <textarea id="MCQuestionPrompt" name="questionPrompt" rows="2" cols="80"></textarea><br>
-	 <label for="MCChoicePrompt">Choice:</label><br>
-     <textarea id="MCChoice" name="MCChoice" rows="2" cols="80"></textarea><br>
-	 <button type="button" id="addChoice">Add Choice</button>
-	 <button type="button" id="deleteChoices">Delete All Choices</button>
-	 <button type="button" id="addMCQuestion">Add Question</button>
-	 
-    </div>`
+	 <hr>
+	 <div id="choiceList"></div>
+	 <div class="input-group mb-3">
+         <button class="btn btn-primary" type="button" onclick="addChoices(1)">Add another choice</button>
+      </div>
+    </div>
+    <hr>
+    <button type="button" id="addMCQuestion">Add Question</button>`;
 
+MCChoiceHTML = `
+	 <div class="input-group mb-3 choice-group">
+        <input type="text" class="form-control" placeholder="Enter an answer choice" aria-label="choice">
+        <div class="input-group-append">
+           <button class="btn btn-outline-danger" type="button" onclick="$(this).closest('.choice-group').remove()">
+                Remove
+            </button>
+        </div>
+     </div>`;
 
 
 $( document ).ready(function() {
@@ -56,20 +65,50 @@ $(".inputSelect").change(function() {
   }else if(inputType == 'NUMBER'){
 	 $('#questionInput').append(rangeInputForm)
   }else if(inputType == 'MC'){
-	 $('#questionInput').append(MCInputForm)
+      $('#questionInput').append(MCInputForm)
+      addChoices(3);
   }
 });
 
 
 
 $("#createSurveyForm").submit(function(e){
-    e.preventDefault()
+    e.preventDefault();
     const surveyName = $('#surveyName').val();
+
+    // run make sure we have the minimum inputs
+    if (!surveyName){
+        $('#surveyCompletedModal').modal('toggle');
+        alert("Please enter a survey name.");
+        return;
+    }
+
+    if (questions.length === 0){
+        $('#surveyCompletedModal').modal('toggle');
+        alert("Please enter at least one question.");
+        return;
+    }
+
+    // load some form data from the page
     const creator = $('#surveyCreator').val();
+    let surveyLink = window.location.origin + '/survey/...';
+
+    // set link to temporary text while the real id is loaded
+    $('#surveyCompletedLinkText').val(surveyLink);
+
+    // reset values right away to prevent any duplicate surveys being created
+    $('#surveyName').val('');
+    $('#textQuestionPrompt').val('');
+    $('#questionTBody').empty();
+
     // Create initial survey with name parameter so that questions can be added to an existing survey
     createSurveyRequest(surveyName, creator).then(async function(result){
         surveyHref = result._links.self.href;
         surveyId=result.id;
+
+        surveyLink = window.location.origin + '/survey/' + surveyId;
+        $('#surveyCompletedLinkText').val(surveyLink);
+
         // Create a promise for each question that needs to be created through API
         for(let i = 0; i < questions.length; i++){
             if(questions[i].inputType === 'TEXT'){
@@ -81,15 +120,30 @@ $("#createSurveyForm").submit(function(e){
             }
         }
 
-        const surveyMessage = 'Survey can be filled out at: '+ window.location.origin + '/survey/' + surveyId;
-        $('#surveyName').val('');
-        $('#textQuestionPrompt').val('');
+        // Set the onclick listener for copying the survey link and remove any old listeners
+        $("#surveyCompletedCopyBtn").off("click");
+        $('#surveyCompletedCopyBtn').click(e => {
+            $('#surveyCompletedLinkText').select();
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+        });
+
+        // set the onclick listener for opening the survey link and remove any old listeners
+        $("#surveyCompletedLinkBtn").off("click");
+        $('#surveyCompletedLinkBtn').click(e => {
+            window.open(surveyLink);
+        });
+
+        // set the onclick listener for opening the survey responses and remove any old listeners
+        $("#surveyCompleteResponsesButton").off("click");
+        $('#surveyCompleteResponsesButton').click(e => {
+            window.open(surveyLink + '/responses');
+        });
+
+        // reset page data
+        questions = [];
         surveyHref = "";
         surveyId = "";
-        questions = [];
-        $('#questionTBody').empty();
-        console.log(surveyMessage);
-        alert(surveyMessage)
     })
 });
 
@@ -99,6 +153,9 @@ $("#createSurveyForm").on('click', '#addTextQuestion', function () {
      inputType =  $(".inputSelect").val()
      questions.push({'prompt': prompt, 'inputType': inputType})
      addNewQuestion(prompt, inputType)
+
+    // clear inputs
+    $('#textQuestionPrompt').val('');
 });
 
 // Button listener to add range question to evaluation to array for submission later
@@ -110,38 +167,45 @@ $("#createSurveyForm").on('click', '#addRangeQuestion', function () {
 	 
 	if(min >= max){
 		alert("Maximum must be above Minimum");
+		return;
 	}else{
 		questions.push({'prompt': prompt, 'inputType': inputType, 'min' : min, 'max': max})
 		addNewQuestion(prompt, inputType)
 	}
-	 
+
+
+    // clear inputs
+    $('#rangeQuestionPrompt').val('');
+    $('#rangeQuestionMin').val('');
+    $('#rangeQuestionMax').val('');
 });
 
 // Button listener to add MC question to evaluation to array for submission later
 $("#createSurveyForm").on('click', '#addMCQuestion', function () {
-     prompt = $('#MCQuestionPrompt').val()
-     inputType =  $(".inputSelect").val()
-     questions.push({'prompt': prompt, 'inputType': inputType, 'choices' : choices})
-	 choices = []
-     addNewQuestion(prompt, inputType)
+
+    // load the choices from the page into the array
+    let divs = $('#choiceList').children();
+    let choices = [];
+    for (div of divs){
+        choices.push($(div).find('input').val())
+    }
+
+    if (choices.length < 2){
+        alert("Please enter at least 2 choices.");
+        return;
+    }
+
+    // add questions to the survey
+    let prompt = $('#MCQuestionPrompt').val();
+    let inputType =  $(".inputSelect").val();
+    questions.push({'prompt': prompt, 'inputType': inputType, 'choices' : choices});
+    addNewQuestion(prompt, inputType);
+
+    // clear inputs
+    $('#MCQuestionPrompt').val('');
+    $('.choice-group').remove();
+    addChoices(3);
 });
-
-// Button listener to add choice for current question to array for submission later
-$("#createSurveyForm").on('click', '#addChoice', function () {
-     c = $('#MCChoice').val()
-     choices.push(c)
-	 alert("Choice added: "+c);
-     $('#MCChoice').val('');
-	 
-});
-
-// Button listener to delete currently saved choices
-$("#createSurveyForm").on('click', '#deleteChoices', function () {
-     choices = []
-	 alert("Choices deleted");
-});
-
-
 
 // Adds question to display on table
 function addNewQuestion(questionPrompt, inputType){
@@ -150,7 +214,11 @@ function addNewQuestion(questionPrompt, inputType){
     $('#questionTBody').append(questionRow)
 }
 
-
+function addChoices(count){
+    for (let i = 0; i < count; i++){
+        $('#choiceList').append(MCChoiceHTML);
+    }
+}
 
 function createSurveyRequest(surveyName, creator){
  return new Promise((resolve, reject) => {
