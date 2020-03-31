@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
 <head>
     <title>Mini Survey Monkey</title>
 </head>
 <body>
-    <div id="">
+    <div id="createSurveyBody">
         <h2>Create a Survey</h2>
         <form id="createSurveyForm" action="/CREATE_SURVEY_POST_ENDPOINT">
             <input type="text" id="surveyCreator" name="creator" th:value="${'/api/user/'+userId}" required hidden><br>
             <label for="surveyName">Survey Name:</label><br>
-            <input type="text" id="surveyName" name="surveyName" value="" required><br>
+            <input type="text" id="surveyName" name="surveyName" value=""><br>
             <hr>
             <h2>Add Question</h2>
             <label for="questionInputSelector">Question Response Type:</label>
@@ -50,14 +58,45 @@
                 </table>
             </div>
             <br>
-            <input id="submitSurvey" type="submit" value="Post Survey" disabled>
+            <input id="submitSurvey" type="submit" value="Post Survey" disabled
+                   data-toggle="modal" data-target="#surveyCompletedModal">
         </form>
     </div>
     <div id="noJSForm">
     </div>
     <link rel="stylesheet" type="text/css" href="/css/createSurvey.css">
-    <script src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/js/createSurvey.js"></script>
+
+    <div id="surveyCompletedModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Survey Created</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <input id="surveyCompletedLinkText" type="text" class="form-control" value="Error" readonly>
+                        <div class="input-group-append">
+                            <button id="surveyCompletedCopyBtn" class="btn btn-outline-secondary" type="button">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button id="surveyCompletedLinkBtn" class="btn btn-outline-secondary" type="button">
+                                <i class="fas fa-external-link-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="surveyCompleteResponsesButton" type="button" class="btn btn-primary">View Responses</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+
 

@@ -21,10 +21,10 @@ This project is continuously integrated via [Travis CI](https://travis-ci.org/) 
   - Multiple choice
   - Number range
 - The creator of a survey can view the results of surveys they have created
+- Features can be toggled using [Togglz](https://www.togglz.org/) console
 
 ## Plan for the Next Sprint
-- Enable feature toggle
-- Improve UI graphics for viewing results
+- Pitch the app to SurveyMonkey
 
 ## Diagrams
 ### UML Diagram
