@@ -34,14 +34,17 @@
         </div>
 
         <div class="container d-flex justify-content-start align-items-center mt-5 pt-2">
-            <div class="row m-4" th:each="survey : ${user.getSurveys()}">
-                <a th:href="@{|/api/survey/${survey.getID()}/questions|}" class = "custom-card">
+            <div class="survey row m-4" th:each="survey : ${user.getSurveys()}">
                     <div class = "card">
-                        <img class="card-img-top" src="/images/survey.jpg">
+                        <a th:href="@{|/survey/${survey.getID()}/responses|}" class = "custom-card">
+                            <img class="card-img-top" src="/images/survey.jpg">
+                        </a>
                         <div class = "card-body">
-                            <h4 class="card-title text-center" th:text="${survey.getName()}"></h4>
+                            <a th:href="@{|/survey/${survey.getID()}/responses|}" class = "custom-card">
+                                <h4 class="card-title text-center" th:text="${survey.getName()}"></h4>
+                            </a>
                         </div>
-                        <button th:id="${survey.getID()}">Close Survey</button>
+                        <button th:id="${survey.getID()}" class="btn btn-danger">Close Survey</button>
                     </div>
                 </a>
             </div>

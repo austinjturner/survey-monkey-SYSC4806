@@ -1,9 +1,15 @@
 
 $(document).ready(function(){
 
-    $("button").on('click', function(event){
+    $.get("/login", function(data) {
+        $("#user").html(data.name);
+    });
+
+    $(".survey").find("button").on('click', function(event){
         closeSurvey(this.id);
     });
+
+    $(".survey").find("button").each(checkClosed(this.id));
 
     $('.card').hover(
         function(){
@@ -18,11 +24,6 @@ $(document).ready(function(){
             }, 200);
         }
     );
-
-    $.get("/login", function(data) {
-        $("#user").html(data.name);
-
-    });
 
 
 });
@@ -46,4 +47,25 @@ function closeSurvey(id) {
         dataType: "json",
         data: JSON.stringify({ closed: true })
     })
+    alert("Survey Closed!");
+}
+
+function checkClosed(id){
+    apiUrl = window.location.origin + '/api/survey/'+id
+
+    $.getJSON(apiURL, function(data) {
+        if(data.closed){
+            $('#'+id).attr("disabled", true);
+            $('#'+id).html("Survey Closed");
+            $('#'+id).attr('class',"btn btn-warning");
+        }
+    });
+
+    $.get(apiURL, function(data) {
+        if(data.closed){
+            $('#'+id).attr("disabled", true);
+            $('#'+id).html("Survey Closed");
+            $('#'+id).attr('class',"btn btn-warning");
+        }
+    });
 }
