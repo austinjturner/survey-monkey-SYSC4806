@@ -44,7 +44,11 @@
                                 <h4 class="card-title text-center" th:text="${survey.getName()}"></h4>
                             </a>
                         </div>
-                        <button th:id="${survey.getID()}" class="btn btn-danger">Close Survey</button>
+                        <div th:switch="${survey.closed}">
+                            <button th:case="false" th:id="${survey.getID()}" class="btn btn-danger">Close Survey</button>
+                            <button th:case="true" th:id="${survey.getID()}" class="btn btn-warning" disabled>Survey Closed</button>
+                        </div>
+
                     </div>
                 </a>
             </div>
@@ -53,3 +57,4 @@
 
 </body>
 </html>
+

@@ -9,8 +9,6 @@ $(document).ready(function(){
         closeSurvey(this.id);
     });
 
-    $(".survey").find("button").each(checkClosed(this.id));
-
     $('.card').hover(
         function(){
             $(this).animate({
@@ -48,24 +46,36 @@ function closeSurvey(id) {
         data: JSON.stringify({ closed: true })
     })
     alert("Survey Closed!");
+    checkClosed(id);
 }
 
-function checkClosed(id){
-    apiUrl = window.location.origin + '/api/survey/'+id
+async function checkClosed(id){
 
-    $.getJSON(apiURL, function(data) {
-        if(data.closed){
-            $('#'+id).attr("disabled", true);
-            $('#'+id).html("Survey Closed");
-            $('#'+id).attr('class',"btn btn-warning");
+    var promise = getSurvey(id);
+    promise.then(async function(val){
+       if(val.closed){
+            await $('#'+id).attr("disabled", true);
+            await $('#'+id).html("Survey Closed");
+            await $('#'+id).attr('class',"btn btn-warning");
         }
+
     });
 
-    $.get(apiURL, function(data) {
-        if(data.closed){
-            $('#'+id).attr("disabled", true);
-            $('#'+id).html("Survey Closed");
-            $('#'+id).attr('class',"btn btn-warning");
-        }
-    });
 }
+
+function getSurvey(id) {
+    return new Promise((resolve, reject) => {
+        apiUrl = window.location.origin + '/api/survey/' + id
+        $.ajax({
+            url: apiUrl,
+            type: 'GET',
+            success: function(data) {
+                resolve(data)
+            },
+            error: function(error) {
+                reject(error)
+            },
+        })
+    })
+}
+
