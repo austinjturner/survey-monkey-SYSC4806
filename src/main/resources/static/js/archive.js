@@ -1,7 +1,11 @@
 
 $(document).ready(function(){
 
-    $("button").on('click', function(event){
+    $.get("/login", function(data) {
+        $("#user").html(data.name);
+    });
+
+    $(".survey").find("button").on('click', function(event){
         closeSurvey(this.id);
     });
 
@@ -18,11 +22,6 @@ $(document).ready(function(){
             }, 200);
         }
     );
-
-    $.get("/login", function(data) {
-        $("#user").html(data.name);
-
-    });
 
 
 });
@@ -46,4 +45,33 @@ function closeSurvey(id) {
         dataType: "json",
         data: JSON.stringify({ closed: true })
     })
+    alert("Survey Closed!");
+    checkClosed(id);
 }
+
+async function checkClosed(id){
+    getSurvey(id).then(async function(val){
+       if(val.closed){
+            await $('#'+id).attr("disabled", true);
+            await $('#'+id).html("Survey Closed");
+            await $('#'+id).attr('class',"btn btn-warning");
+        }
+    });
+}
+
+function getSurvey(id) {
+    return new Promise((resolve, reject) => {
+        apiUrl = window.location.origin + '/api/survey/' + id
+        $.ajax({
+            url: apiUrl,
+            type: 'GET',
+            success: function(data) {
+                resolve(data)
+            },
+            error: function(error) {
+                reject(error)
+            },
+        })
+    })
+}
+
