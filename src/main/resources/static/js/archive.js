@@ -50,17 +50,13 @@ function closeSurvey(id) {
 }
 
 async function checkClosed(id){
-
-    var promise = getSurvey(id);
-    promise.then(async function(val){
+    getSurvey(id).then(async function(val){
        if(val.closed){
             await $('#'+id).attr("disabled", true);
             await $('#'+id).html("Survey Closed");
             await $('#'+id).attr('class',"btn btn-warning");
         }
-
     });
-
 }
 
 function getSurvey(id) {
